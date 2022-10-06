@@ -5,9 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<VersionPrefix>0.1.0</VersionPrefix>
-	<AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
-    <FileVersion>$(VersionPrefix).0</FileVersion>	  
+	<VersionPrefix>0.1.0</VersionPrefix>  
 	<AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
     <NeutralLanguage>en-US</NeutralLanguage>	  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
