@@ -1,4 +1,8 @@
-# Open Human Task Specification - NET SDK
+# Open Human Task Specification<br>NET Software Development Kit
+
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-green.svg?style=flat)](https://github.com/openhumantask/specification/issues)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/openhumantask/specification/blob/master/LICENSE)
+[<img src="http://img.shields.io/badge/slack-@openhumantask-red?style=social&logo=slack">](https://cloud-native.slack.com/messages/serverless-workflow) 
 
 Provides .NET API/SPI and Model Validation for the [Open Human Task Specification](https://github.com/openhumantask/specification).
 
