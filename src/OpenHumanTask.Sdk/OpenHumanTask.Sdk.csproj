@@ -29,7 +29,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="C:\Dev\OpenHumanTasks\sdk-net\src\OpenHumanTask.Sdk\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
