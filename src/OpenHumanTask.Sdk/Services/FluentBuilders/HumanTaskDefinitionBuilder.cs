@@ -217,6 +217,16 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder UseForm(Action<IFormDefinitionBuilder> setup)
+        {
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+            var builder = new FormDefinitionBuilder();
+            setup(builder);
+            this.Definition.Form = builder.Build();
+            return this;
+        }
+
+        /// <inheritdoc/>
         public IHumanTaskDefinitionBuilder UseDeadline(Action<IDeadlineDefinitionBuilder> setup)
         {
             if(setup == null) throw new ArgumentNullException(nameof(setup));
@@ -261,12 +271,29 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder AnnotateWith(string key, string value)
+        {
+            if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
+            if (this.Definition.Annotations == null) this.Definition.Annotations = new();
+            this.Definition.Annotations[key] = value;
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder UseMetadata(object? metadata)
+        {
+            this.Definition.Metadata = metadata;
+            return this;
+        }
+
+        /// <inheritdoc/>
         public virtual HumanTaskDefinition Build()
         {
             if (string.IsNullOrWhiteSpace(this.Definition.Id))
                 this.Definition.Id = HumanTaskDefinition.BuildId(this.Definition.Name, this.Definition.Namespace, this.Definition.Version);
             return this.Definition;
         }
+
 
     }
 

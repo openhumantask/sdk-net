@@ -188,7 +188,7 @@ namespace OpenHumanTask.Sdk.Models
         /// </summary>
         [DataMember(Name = "annotations", Order = 21)]
         [JsonPropertyName("annotations")]
-        public virtual IDictionary<string, string>? Annotations { get; set; }
+        public virtual Dictionary<string, string>? Annotations { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to provide additional unstructured information about the human task definition. May be used by implementations to define additional functionality.

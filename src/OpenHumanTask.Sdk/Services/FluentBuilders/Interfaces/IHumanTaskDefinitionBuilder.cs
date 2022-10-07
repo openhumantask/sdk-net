@@ -195,6 +195,28 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         IHumanTaskDefinitionBuilder Assign(Action<IPeopleAssignmentsDefinitionBuilder> setup);
 
         /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to use the specified form.
+        /// </summary>
+        /// <param name="setup">The <see cref="Action{T}"/> used to configure the <see cref="FormDefinition"/> to build.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/>.</returns>
+        IHumanTaskDefinitionBuilder UseForm(Action<IFormDefinitionBuilder> setup);
+
+        /// <summary>
+        /// Annotates the <see cref="HumanTaskDefinition"/> to build
+        /// </summary>
+        /// <param name="key">The key of the annotation to add.</param>
+        /// <param name="value">The value of the annotation to add.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/>.</returns>
+        IHumanTaskDefinitionBuilder AnnotateWith(string key, string value);
+
+        /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to use the specified metadata.
+        /// </summary>
+        /// <param name="metadata">An object that represents the <see cref="HumanTaskDefinition"/>'s metadata.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/>.</returns>
+        IHumanTaskDefinitionBuilder UseMetadata(object? metadata);
+
+        /// <summary>
         /// Builds the configured <see cref="HumanTaskDefinition"/>
         /// </summary>
         /// <returns>A new <see cref="HumanTaskDefinition"/></returns>

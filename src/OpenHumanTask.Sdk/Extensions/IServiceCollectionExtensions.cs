@@ -32,18 +32,23 @@ namespace OpenHumanTask.Sdk
         /// <returns>The configured <see cref="IServiceCollection"/></returns>
         public static IServiceCollection AddOpenHumanTask(this IServiceCollection services)
         {
-            services.AddJsonSerializer();
+            services.AddJsonSerializer(options =>
+            {
+                options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+            });
             services.AddYamlDotNetSerializer(
                serializer => serializer
                    .IncludeNonPublicProperties()
                    .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor))
                    .WithTypeConverter(new Serialization.Yaml.Iso8601TimeSpanConverter())
-                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter()),
+                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
+                   .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()),
                deserializer => deserializer
                    .WithNodeDeserializer(
                        inner => new Iso8601TimeSpanConverter(inner),
                        syntax => syntax.InsteadOf<ScalarNodeDeserializer>())
-                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter()));
+                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
+                   .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()));
             services.AddHttpClient();
             services.AddSingleton<IHumanTaskDefinitionReader, HumanTaskDefinitionReader>();
             services.AddValidatorsFromAssemblyContaining<IHumanTaskDefinitionReader>(ServiceLifetime.Singleton);

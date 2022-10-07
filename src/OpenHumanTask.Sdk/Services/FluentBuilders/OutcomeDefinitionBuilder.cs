@@ -38,7 +38,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IOutcomeDefinitionBuilder Outputs(string language, string? value)
         {
             if (string.IsNullOrWhiteSpace(language)) throw new ArgumentNullException(nameof(language));
-            if (language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
+            if (!language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
             IDictionary<string, string?> values;
             if (this.Definition.Value == null) values = new Dictionary<string, string?>();
             else if (this.Definition.Value is string) values = new Dictionary<string, string?>();
