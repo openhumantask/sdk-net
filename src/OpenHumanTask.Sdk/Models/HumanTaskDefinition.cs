@@ -64,6 +64,7 @@ namespace OpenHumanTask.Sdk.Models
         /// </summary>
         [IgnoreDataMember]
         [JsonIgnore]
+        [YamlIgnore]
         public virtual string? FullName => string.IsNullOrWhiteSpace(this.Namespace) | string.IsNullOrWhiteSpace(this.Name) | string.IsNullOrWhiteSpace(this.Version) ? null : $"{this.Namespace}.{this.Name}:{this.Version}";
 
         /// <summary>
@@ -147,11 +148,11 @@ namespace OpenHumanTask.Sdk.Models
         public virtual FormDefinition? Form { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the subtasks the <see cref="HumanTaskDefinition"/> is made out of.
+        /// Gets/sets an <see cref="List{T}"/> containing the subtasks the <see cref="HumanTaskDefinition"/> is made out of.
         /// </summary>
         [DataMember(Name = "subtasks", Order = 16)]
         [JsonPropertyName("subtasks")]
-        public virtual ICollection<SubtaskDefinition>? Subtasks { get; set; }
+        public virtual List<SubtaskDefinition>? Subtasks { get; set; }
 
         /// <summary>
         /// Gets/sets the way subtasks should be executed.
@@ -162,25 +163,25 @@ namespace OpenHumanTask.Sdk.Models
         public virtual SubtaskExecutionMode SubtaskExecutionMode { get; set; } = SubtaskExecutionMode.Sequential;
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the <see cref="HumanTaskDefinition"/>'s <see cref="DeadlineDefinition"/>s.
+        /// Gets/sets an <see cref="List{T}"/> containing the <see cref="HumanTaskDefinition"/>'s <see cref="DeadlineDefinition"/>s.
         /// </summary>
         [DataMember(Name = "deadlines", Order = 18)]
         [JsonPropertyName("deadlines")]
-        public virtual ICollection<DeadlineDefinition>? Deadlines { get; set; }
+        public virtual List<DeadlineDefinition>? Deadlines { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the <see cref="HumanTaskDefinition"/>'s <see cref="CompletionBehaviorDefinition"/>s.
+        /// Gets/sets an <see cref="List{T}"/> containing the <see cref="HumanTaskDefinition"/>'s <see cref="CompletionBehaviorDefinition"/>s.
         /// </summary>
         [DataMember(Name = "completionBehaviors", Order = 19)]
         [JsonPropertyName("completionBehaviors")]
-        public virtual ICollection<CompletionBehaviorDefinition>? CompletionBehaviors { get; set; }
+        public virtual List<CompletionBehaviorDefinition>? CompletionBehaviors { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the definitions of the task's possible outcomes.
+        /// Gets/sets an <see cref="List{T}"/> containing the definitions of the task's possible outcomes.
         /// </summary>
         [DataMember(Name = "outcomes", Order = 20)]
         [JsonPropertyName("outcomes")]
-        public virtual ICollection<OutcomeDefinition>? Outcomes { get; set; }
+        public virtual List<OutcomeDefinition>? Outcomes { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="IDictionary{TKey, TValue}"/> containg key/value pairs of helpful terms used to describe the human task intended purpose, subject areas, or other important qualities.
@@ -200,6 +201,21 @@ namespace OpenHumanTask.Sdk.Models
         public override string ToString()
         {
             return this.FullName!;
+        }
+
+        /// <summary>
+        /// Builds a new <see cref="HumanTaskDefinition"/>'s unique identifier, according to the format recommended by the OHT spec ({namespace}.{name}:{version}).
+        /// </summary>
+        /// <param name="name">The name of the <see cref="HumanTaskDefinition"/> to build a unique identifier for.</param>
+        /// <param name="namespace">The namespace of the <see cref="HumanTaskDefinition"/> to build a unique identifier for.</param>
+        /// <param name="version">The version of the <see cref="HumanTaskDefinition"/> to build a unique identifier for.</param>
+        /// <returns>A new <see cref="HumanTaskDefinition"/>'s unique identifier.</returns>
+        public static string BuildId(string name, string @namespace, string version)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+            if (string.IsNullOrWhiteSpace(@namespace)) throw new ArgumentNullException(nameof(@namespace));
+            if (string.IsNullOrWhiteSpace(version)) throw new ArgumentNullException(nameof(version));
+            return $"{@namespace}.{name}:{version}";
         }
 
     }

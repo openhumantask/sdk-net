@@ -62,7 +62,7 @@ namespace System.Text.Json.Serialization.Converters
         public override void Write(Utf8JsonWriter writer, TimeSpan? value, JsonSerializerOptions options)
         {
             if(value.HasValue)
-                writer.WriteStringValue(value.ToString());
+                writer.WriteStringValue(Iso8601TimeSpan.Format(value.Value));
         }
 
     }

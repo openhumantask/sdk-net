@@ -34,8 +34,6 @@ namespace OpenHumanTask.Sdk.UnitTests.Cases.Services.IO
             await stream.FlushAsync();
             stream.Position = 0;
 
-            //var json = new StreamReader(stream).ReadToEnd();
-
             //act
             var deserialized = await this.Reader.ReadAsync(stream);
 

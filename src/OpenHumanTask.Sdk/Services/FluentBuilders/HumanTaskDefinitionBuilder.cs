@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Linq.Expressions;
+using System.Xml.Linq;
+using YamlDotNet.Core.Tokens;
+
 namespace OpenHumanTask.Sdk.Services.FluentBuilders
 {
 
@@ -40,7 +44,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         {
             if (string.IsNullOrWhiteSpace(@namespace)) throw new ArgumentNullException(nameof(@namespace));
             var parts = @namespace.Split('.', StringSplitOptions.RemoveEmptyEntries);
-            this.Definition.Name = string.Join('.', @namespace.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(p => p.Slugify("-").ToLowerInvariant()));
+            this.Definition.Namespace = string.Join('.', @namespace.Split('.', StringSplitOptions.RemoveEmptyEntries).Select(p => p.Slugify("-").ToLowerInvariant()));
             return this;
         }
 
@@ -57,7 +61,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder UseSpecVersion(string version)
         {
             if (string.IsNullOrWhiteSpace(version)) throw new ArgumentNullException(nameof(version));
-            if (SemanticVersion.TryParse(version, out _)) throw new ArgumentException(nameof(version), $"The specified value '{version}' is not a valid semantic version.");
+            if (SemanticVersion.TryParse(version, out _)) throw new ArgumentException($"The specified value '{version}' is not a valid semantic version.", nameof(version));
             this.Definition.SpecVersion = version;
             return this;
         }
@@ -65,7 +69,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         /// <inheritdoc/>
         public virtual IHumanTaskDefinitionBuilder WithKey(string? key)
         {
-            if (!string.IsNullOrWhiteSpace(key) && !key.IsRuntimeExpression()) throw new ArgumentNullException(nameof(key), $"The specified value '{key}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+            if (!string.IsNullOrWhiteSpace(key) && !key.IsRuntimeExpression()) throw new ArgumentNullException(nameof(key), new FormatException($"The specified value '{key}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
             this.Definition.Key = key;
             return this;
         }
@@ -74,7 +78,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithInputData(JSchema schema, object? state)
         {
             if (state != null && state is string expression && !expression.IsRuntimeExpression())
-                throw new ArgumentNullException(nameof(state), $"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+                throw new ArgumentNullException(nameof(state), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
             this.Definition.InputData = new() { Schema = schema, State = state };
             return this;
         }
@@ -91,7 +95,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithInputData(object? state)
         {
             if (state != null && state is string expression && !expression.IsRuntimeExpression())
-                throw new ArgumentNullException(nameof(state), $"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+                throw new ArgumentNullException(nameof(state), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
             if (this.Definition.InputData == null) this.Definition.InputData = new();
             this.Definition.InputData.State = state;
             return this;
@@ -101,7 +105,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithOutputData(JSchema schema, object? state)
         {
             if (state != null && state is string expression && !expression.IsRuntimeExpression())
-                throw new ArgumentNullException(nameof(state), $"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+                throw new ArgumentNullException(nameof(state), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
             this.Definition.OutputData = new() { Schema = schema, State = state };
             return this;
         }
@@ -118,7 +122,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithOutputDataState(object? state)
         {
             if (state != null && state is string expression && !expression.IsRuntimeExpression())
-                throw new ArgumentNullException(nameof(state), $"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+                throw new ArgumentNullException(nameof(state), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
             if (this.Definition.OutputData == null) this.Definition.OutputData = new();
             this.Definition.OutputData.State = state;
             return this;
@@ -150,7 +154,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithTitle(string language, string title)
         {
             if (string.IsNullOrWhiteSpace(language)) throw new ArgumentNullException(nameof(language));
-            if (!language.IsValidLanguageCode()) throw new ArgumentException(nameof(language), $"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.");
+            if (!language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
             IDictionary<string, string> values;
             if (this.Definition.Title == null) values = new Dictionary<string, string>();
             else if (this.Definition.Title is string) values = new Dictionary<string, string>();
@@ -171,7 +175,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithSubject(string language, string subject)
         {
             if (string.IsNullOrWhiteSpace(language)) throw new ArgumentNullException(nameof(language));
-            if (!language.IsValidLanguageCode()) throw new ArgumentException(nameof(language), $"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.");
+            if (!language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
             IDictionary<string, string> values;
             if (this.Definition.Subject == null) values = new Dictionary<string, string>();
             else if (this.Definition.Subject is string) values = new Dictionary<string, string>();
@@ -192,7 +196,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         public virtual IHumanTaskDefinitionBuilder WithDescription(string language, string description)
         {
             if (string.IsNullOrWhiteSpace(language)) throw new ArgumentNullException(nameof(language));
-            if (!language.IsValidLanguageCode()) throw new ArgumentException(nameof(language), $"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.");
+            if (!language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
             IDictionary<string, string> values;
             if (this.Definition.Description == null) values = new Dictionary<string, string>();
             else if (this.Definition.Description is string) values = new Dictionary<string, string>();
@@ -235,18 +239,32 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
-        public virtual IHumanTaskDefinitionBuilder AddOutcome(string name, object value, string? condition = null)
+        public virtual IHumanTaskDefinitionBuilder AddSubtask(Action<ISubtaskDefinitionBuilder> setup)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-            if(value == null) throw new ArgumentNullException(nameof(value));
-            if (this.Definition.Outcomes == null) this.Definition.Outcomes = new List<OutcomeDefinition>();
-            this.Definition.Outcomes.Add(new() { Name = name, Value = value, Condition = condition });
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+            if (this.Definition.Subtasks == null) this.Definition.Subtasks = new();
+            var builder = new SubtaskDefinitionBuilder();
+            setup(builder);
+            this.Definition.Subtasks.Add(builder.Build());
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder AddOutcome(Action<IOutcomeDefinitionBuilder> setup)
+        {
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+            if (this.Definition.Outcomes == null) this.Definition.Outcomes = new();
+            var builder = new OutcomeDefinitionBuilder();
+            setup(builder);
+            this.Definition.Outcomes.Add(builder.Build());
             return this;
         }
 
         /// <inheritdoc/>
         public virtual HumanTaskDefinition Build()
         {
+            if (string.IsNullOrWhiteSpace(this.Definition.Id))
+                this.Definition.Id = HumanTaskDefinition.BuildId(this.Definition.Name, this.Definition.Namespace, this.Definition.Version);
             return this.Definition;
         }
 

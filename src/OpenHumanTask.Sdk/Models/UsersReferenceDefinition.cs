@@ -27,7 +27,7 @@ namespace OpenHumanTask.Sdk.Models
         /// </summary>
         [DataMember(Name = "withClaims", Order = 1)]
         [JsonPropertyName("withClaims")]
-        public virtual ICollection<ClaimFilterDefinition>? WithClaims { get; set; }
+        public virtual List<ClaimFilterDefinition>? WithClaims { get; set; }
 
         /// <summary>
         /// Gets/sets the claims to filter by the users to reference. Required if '<see cref="WithClaims"/>' and '<see cref="InGenericRole"/>' have not been set, otherwise ignored.

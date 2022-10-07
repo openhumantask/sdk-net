@@ -30,11 +30,11 @@ namespace OpenHumanTask.Sdk.Models
         public virtual DataModelDefinition? Data { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the form's <see cref="ViewDefinition"/>s
+        /// Gets/sets an <see cref="List{T}"/> containing the form's <see cref="ViewDefinition"/>s
         /// </summary>
         [DataMember(Name = "views", Order = 2)]
         [JsonPropertyName("views")]
-        public virtual ICollection<ViewDefinition> Views { get; set; } = new List<ViewDefinition>();
+        public virtual List<ViewDefinition> Views { get; set; } = new List<ViewDefinition>();
 
     }
 

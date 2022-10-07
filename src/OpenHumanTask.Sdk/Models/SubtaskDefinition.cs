@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
     /// <summary>
@@ -45,7 +47,7 @@ namespace OpenHumanTask.Sdk.Models
         /// <para/>If not set, no input data is supplied to the subtask.
         /// </summary>
         [DataMember(Name = "input", Order = 3)]
-        [JsonPropertyName("input")]
+        [JsonPropertyName("input"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Input { get; set; }
 
     }

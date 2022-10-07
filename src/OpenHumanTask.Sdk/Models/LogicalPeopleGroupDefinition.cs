@@ -31,12 +31,12 @@ namespace OpenHumanTask.Sdk.Models
         public virtual string Name { get; set; } = null!;
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the defined group's members
+        /// Gets/sets an <see cref="List{T}"/> containing the defined group's members
         /// </summary>
         [Required, MinLength(1)]
         [DataMember(Name = "members", IsRequired = true, Order = 2)]
         [JsonPropertyName("members")]
-        public virtual ICollection<PeopleReferenceDefinition> Members { get; set; } = new List<PeopleReferenceDefinition>();
+        public virtual List<PeopleReferenceDefinition> Members { get; set; } = new List<PeopleReferenceDefinition>();
 
     }
 

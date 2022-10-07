@@ -25,16 +25,22 @@ namespace OpenHumanTask.Sdk.Models
         /// <summary>
         /// Gets/sets an object used to configure the notification to perform as the escalation's effect. Required if <see cref="Reassignment"/> and <see cref="Subtask"/> have not been set, otherwise ignored.
         /// </summary>
+        [DataMember(Name = "notification", IsRequired = true, Order = 1)]
+        [JsonPropertyName("notification")]
         public virtual NotificationDefinition? Notification { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to configure the reassignment to perform as the escalation's effect. Required if <see cref="Notification"/> and <see cref="Subtask"/> have not been set, otherwise ignored.
         /// </summary>
+        [DataMember(Name = "reassignment", IsRequired = true, Order = 2)]
+        [JsonPropertyName("reassignment")]
         public virtual ReassignmentDefinition? Reassignment { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to configure the subtask to perform as the escalation's effect. Required if <see cref="Notification"/> and <see cref="ReassignmentDefinition"/> have not been set, otherwise ignored.
         /// </summary>
+        [DataMember(Name = "subtask", IsRequired = true, Order = 3)]
+        [JsonPropertyName("subtask")]
         public virtual SubtaskDefinition? Subtask { get; set; }
 
     }

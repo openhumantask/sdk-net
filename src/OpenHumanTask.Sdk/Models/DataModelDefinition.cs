@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
 
@@ -26,11 +28,15 @@ namespace OpenHumanTask.Sdk.Models
         /// <summary>
         /// Gets/sets the definedd model's <see cref="JSchema"/>, if any
         /// </summary>
+        [DataMember(Name = "schema", Order = 1)]
+        [JsonPropertyName("schema")]
         public virtual JSchema? Schema { get; set; }
 
         /// <summary>
         /// Gets/sets an object that defines the defined model's initial stater
         /// </summary>
+        [DataMember(Name = "state", Order = 2)]
+        [JsonPropertyName("state"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? State { get; set; }
 
     }

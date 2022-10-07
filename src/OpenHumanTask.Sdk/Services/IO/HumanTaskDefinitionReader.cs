@@ -57,7 +57,7 @@ namespace OpenHumanTask.Sdk.Services.IO
         public virtual async Task<HumanTaskDefinition> ReadAsync(Stream stream, CancellationToken cancellationToken = default)
         {
             if(stream == null) throw new ArgumentNullException(nameof(stream));
-            ISerializer serializer;
+            Neuroglia.Serialization.ISerializer serializer;
             var offset = stream.Position;
             using var reader = new StreamReader(stream);
             var input = reader.ReadToEnd();

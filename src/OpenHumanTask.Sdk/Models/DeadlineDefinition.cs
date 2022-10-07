@@ -56,12 +56,12 @@ namespace OpenHumanTask.Sdk.Models
         public virtual TimeSpan? ElapsesAfter { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the <see cref="EscalationDefinition"/>s defined by the <see cref="DeadlineDefinition"/>.
+        /// Gets/sets an <see cref="List{T}"/> containing the <see cref="EscalationDefinition"/>s defined by the <see cref="DeadlineDefinition"/>.
         /// </summary>
         [Required, MinLength(1)]
         [DataMember(Name = "escalations", IsRequired = true, Order = 5)]
         [JsonPropertyName("escalations")]
-        public virtual ICollection<EscalationDefinition> Escalations { get; set; } = new List<EscalationDefinition>();
+        public virtual List<EscalationDefinition> Escalations { get; set; } = new List<EscalationDefinition>();
 
         /// <inheritdoc/>
         public override string ToString()

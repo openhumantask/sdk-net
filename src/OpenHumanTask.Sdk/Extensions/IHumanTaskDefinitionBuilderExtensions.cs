@@ -159,6 +159,34 @@ namespace OpenHumanTask.Sdk
             });
         }
 
+        /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to define the specified outcome.
+        /// </summary>
+        /// <param name="builder">The <see cref="IHumanTaskDefinitionBuilder"/> to configure.</param>
+        /// <param name="name">The name of the <see cref="OutcomeDefinition"/> to add.</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="OutcomeDefinition"/> to add.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/></returns>
+        public static IHumanTaskDefinitionBuilder AddOutcome(this IHumanTaskDefinitionBuilder builder, string name, Action<IOutcomeDefinitionBuilder> setup)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+            return builder.AddOutcome(outcome => setup(outcome.WithName(name)));
+        }
+
+        /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to define the specified subtask.
+        /// </summary>
+        /// <param name="builder">The <see cref="IHumanTaskDefinitionBuilder"/> to configure.</param>
+        /// <param name="name">The name of the <see cref="SubtaskDefinition"/> to add.</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="SubtaskDefinition"/> to add.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/></returns>
+        public static IHumanTaskDefinitionBuilder AddSubtask(this IHumanTaskDefinitionBuilder builder, string name, Action<ISubtaskDefinitionBuilder> setup)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+            if (setup == null) throw new ArgumentNullException(nameof(setup));
+            return builder.AddSubtask(subtask => setup(subtask.WithName(name)));
+        }
+
     }
 
 }

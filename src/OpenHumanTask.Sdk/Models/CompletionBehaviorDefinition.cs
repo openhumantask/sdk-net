@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
     /// <summary>
@@ -51,6 +53,7 @@ namespace OpenHumanTask.Sdk.Models
         /// </summary>
         [IgnoreDataMember]
         [JsonIgnore]
+        [YamlIgnore]
         public virtual bool IsDefault => string.IsNullOrWhiteSpace(this.Condition);
 
         /// <summary>
@@ -60,7 +63,7 @@ namespace OpenHumanTask.Sdk.Models
         /// <para/>If not set, no output data is specified.
         /// </summary>
         [DataMember(Name = "output", Order = 4)]
-        [JsonPropertyName("output")]
+        [JsonPropertyName("output"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Output { get; set; }
 
         /// <inheritdoc/>

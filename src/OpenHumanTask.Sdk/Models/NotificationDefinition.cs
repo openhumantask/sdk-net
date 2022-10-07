@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
     /// <summary>
@@ -32,26 +34,26 @@ namespace OpenHumanTask.Sdk.Models
         public virtual string Name { get; set; } = null!;
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the the notification's views.
+        /// Gets/sets an <see cref="List{T}"/> containing the the notification's views.
         /// </summary>
         [Required, MinLength(1)]
         [DataMember(Name = "views", IsRequired = true, Order = 2)]
         [JsonPropertyName("views")]
-        public virtual ICollection<ViewDefinition> Views { get; set; } = new List<ViewDefinition>();
+        public virtual List<ViewDefinition> Views { get; set; } = new List<ViewDefinition>();
 
         /// <summary>
         /// Gets the defined notification's input. If a string, is a runtime expression used to build the notification's input data based on the human task's data. If an object, represents the input data of the notification to produce.runtime expressions can be used in any and all properties, at whichever depth.
         /// </summary>
-        [DataMember(Name = "views", Order = 3)]
-        [JsonPropertyName("views")]
+        [DataMember(Name = "input", Order = 3)]
+        [JsonPropertyName("input"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Input { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> that contains the notification's recipients. If set, overrides the <see cref="HumanTaskDefinition"/>'s <see cref="PeopleAssignmentsDefinition.NotificationRecipients"/> property
+        /// Gets/sets an <see cref="List{T}"/> that contains the notification's recipients. If set, overrides the <see cref="HumanTaskDefinition"/>'s <see cref="PeopleAssignmentsDefinition.NotificationRecipients"/> property
         /// </summary>
         [DataMember(Name = "recipients", Order = 4)]
         [JsonPropertyName("recipients")]
-        public virtual ICollection<PeopleReferenceDefinition>? Recipients { get; set; }
+        public virtual List<PeopleReferenceDefinition>? Recipients { get; set; }
 
         /// <inheritdoc/>
         public override string ToString()

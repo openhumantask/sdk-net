@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
     /// <summary>
@@ -43,13 +45,14 @@ namespace OpenHumanTask.Sdk.Models
         /// </summary>
         [IgnoreDataMember]
         [JsonIgnore]
+        [YamlIgnore]
         public virtual bool IsDefault => string.IsNullOrWhiteSpace(this.Condition);
 
         /// <summary>
         /// Gets/sets he outcome's localized values. If a string, the culture-invariant outcome's value. If an object, the mappings of localized values to their two-letter ISO 639-1 language names.Must declare at least one language/value pair.
         /// </summary>
         [DataMember(Name = "value", Order = 4)]
-        [JsonPropertyName("value")]
+        [JsonPropertyName("value"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Value { get; set; }
 
         /// <inheritdoc/>

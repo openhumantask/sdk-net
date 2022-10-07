@@ -24,53 +24,53 @@ namespace OpenHumanTask.Sdk.Models
     {
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#potential-initiators">potential initiators</see>
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#potential-initiators">potential initiators</see>
         /// </summary>
         [DataMember(Name = "potentialInitiators", Order = 1)]
         [JsonPropertyName("potentialInitiators")]
-        public virtual ICollection<PeopleReferenceDefinition>? PotentialInitiators { get; set; }
+        public virtual List<PeopleReferenceDefinition>? PotentialInitiators { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#potential-owners">potential owners</see>
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#potential-owners">potential owners</see>
         /// </summary>
         [DataMember(Name = "potentialOwners", Order = 2)]
         [JsonPropertyName("potentialOwners")]
-        public virtual ICollection<PeopleReferenceDefinition>? PotentialOwners { get; set; }
+        public virtual List<PeopleReferenceDefinition>? PotentialOwners { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#excluded-owners">excluded owners</see>
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#excluded-owners">excluded owners</see>
         /// </summary>
         [DataMember(Name = "excludedOwners", Order = 3)]
         [JsonPropertyName("excludedOwners")]
-        public virtual ICollection<PeopleReferenceDefinition>? ExcludedOwners { get; set; }
+        public virtual List<PeopleReferenceDefinition>? ExcludedOwners { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#stakeholders">stakeholders</see>
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#stakeholders">stakeholders</see>
         /// </summary>
         [DataMember(Name = "stakeholders", Order = 4)]
         [JsonPropertyName("stakeholders")]
-        public virtual ICollection<PeopleReferenceDefinition>? Stakeholders { get; set; }
+        public virtual List<PeopleReferenceDefinition>? Stakeholders { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#business-administrators">business administrators</see>
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#business-administrators">business administrators</see>
         /// </summary>
         [DataMember(Name = "businessAdministrators", Order = 5)]
         [JsonPropertyName("businessAdministrators")]
-        public virtual ICollection<PeopleReferenceDefinition>? BusinessAdministrators { get; set; }
+        public virtual List<PeopleReferenceDefinition>? BusinessAdministrators { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#notification-recipients">notification recipients</see>
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#notification-recipients">notification recipients</see>
         /// </summary>
         [DataMember(Name = "notificationRecipients", Order = 6)]
         [JsonPropertyName("notificationRecipients")]
-        public virtual ICollection<PeopleReferenceDefinition>? NotificationRecipients { get; set; }
+        public virtual List<PeopleReferenceDefinition>? NotificationRecipients { get; set; }
 
         /// <summary>
-        /// Gets/sets an <see cref="ICollection{T}"/> containing the task's <see cref="LogicalPeopleGroupDefinition"/>s
+        /// Gets/sets an <see cref="List{T}"/> containing the task's <see cref="LogicalPeopleGroupDefinition"/>s
         /// </summary>
         [DataMember(Name = "groups", Order = 7)]
         [JsonPropertyName("groups")]
-        public virtual ICollection<LogicalPeopleGroupDefinition>? Groups { get; set; }
+        public virtual List<LogicalPeopleGroupDefinition>? Groups { get; set; }
 
     }
 

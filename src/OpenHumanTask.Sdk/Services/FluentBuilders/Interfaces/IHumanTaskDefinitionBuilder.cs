@@ -176,11 +176,16 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         /// <summary>
         /// Configures the <see cref="HumanTaskDefinition"/> to build to define the specified outcome.
         /// </summary>
-        /// <param name="name">The name of the outcome. Must be lowercase and only contain alphanumeric characters, with the exceptions of the - character.</param>
-        /// <param name="value">The outcome's localized values. If a string, the culture-invariant outcome's value. If an object, the mappings of localized values to their two-letter ISO 639-1 language names. Must declare at least one language/value pair.</param>
-        /// <param name="condition">A runtime expression used to determine whether or not the outcome applies.</param>
+        /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="OutcomeDefinition"/> to add.</param>
         /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/></returns>
-        IHumanTaskDefinitionBuilder AddOutcome(string name, object value, string? condition = null);
+        IHumanTaskDefinitionBuilder AddOutcome(Action<IOutcomeDefinitionBuilder> setup);
+
+        /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to define the specified subtask.
+        /// </summary>
+        /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="SubtaskDefinition"/> to add.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/></returns>
+        IHumanTaskDefinitionBuilder AddSubtask(Action<ISubtaskDefinitionBuilder> setup);
 
         /// <summary>
         /// Assigns the <see cref="HumanTaskDefinition"/> to build to the specified people.

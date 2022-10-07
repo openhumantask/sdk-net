@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
 
@@ -41,7 +43,7 @@ namespace OpenHumanTask.Sdk.Models
         /// Gets/sets the view template. If a string, the raw template contents. If an object, the inline template. Can be a (or contain) runtime expression(s).
         /// </summary>
         [DataMember(Name = "template", Order = 3)]
-        [JsonPropertyName("template")]
+        [JsonPropertyName("template"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object Template { get; set; } = null!;
 
     }

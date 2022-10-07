@@ -14,7 +14,6 @@
 
 using FluentValidation;
 using OpenHumanTask.Sdk.Services.IO;
-using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NodeDeserializers;
 
 namespace OpenHumanTask.Sdk
@@ -37,11 +36,14 @@ namespace OpenHumanTask.Sdk
             services.AddYamlDotNetSerializer(
                serializer => serializer
                    .IncludeNonPublicProperties()
-                   .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor)),
+                   .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor))
+                   .WithTypeConverter(new Serialization.Yaml.Iso8601TimeSpanConverter())
+                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter()),
                deserializer => deserializer
                    .WithNodeDeserializer(
                        inner => new Iso8601TimeSpanConverter(inner),
-                       syntax => syntax.InsteadOf<ScalarNodeDeserializer>()));
+                       syntax => syntax.InsteadOf<ScalarNodeDeserializer>())
+                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter()));
             services.AddHttpClient();
             services.AddSingleton<IHumanTaskDefinitionReader, HumanTaskDefinitionReader>();
             services.AddValidatorsFromAssemblyContaining<IHumanTaskDefinitionReader>(ServiceLifetime.Singleton);
