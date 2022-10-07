@@ -14,6 +14,7 @@
 
 namespace OpenHumanTask.Sdk.Services.FluentBuilders
 {
+
     /// <summary>
     /// Represents the default implementation of the <see cref="IDeadlineDefinitionBuilder"/> interface.
     /// </summary>

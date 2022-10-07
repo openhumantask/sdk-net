@@ -14,8 +14,9 @@
 
 namespace OpenHumanTask.Sdk.Services.FluentBuilders
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="EscalationDefinition"/>s
+    /// Defines the fundamentals of a service used to build <see cref="EscalationDefinition"/>s.
     /// </summary>
     public interface IEscalationDefinitionBuilder
     {
@@ -25,14 +26,14 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         /// </summary>
         /// <param name="name">The name of the human task definition. Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.</param>
         /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
-        IHumanTaskDefinitionBuilder WithName(string name);
+        IEscalationDefinitionBuilder WithName(string name);
 
         /// <summary>
         /// Configures the runtime expression to used to determine whether or not the <see cref="EscalationDefinition"/> to build applies
         /// </summary>
         /// <param name="condition">The runtime expression used to determine whether or not the <see cref="EscalationDefinition"/> to build applies</param>
         /// <returns>The configured <see cref="ITypedCompletionBehaviorDefinitionBuilder"/>.</returns>
-        IHumanTaskDefinitionBuilder When(string? condition);
+        IEscalationDefinitionBuilder When(string? condition);
 
         /// <summary>
         /// Configures the <see cref="EscalationDefinition"/> to build to create a notification when applying.
@@ -44,7 +45,7 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         /// Configures the <see cref="EscalationDefinition"/> to build to reassign the task when applying.
         /// </summary>
         /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="ReassignmentDefinition"/> to create.</param>
-        void Reassign(Action<IReassignmentDefinitionBuilder> setup);
+        void Reassign(Action<IReassignmentDefinitionBuilder>? setup = null);
 
         /// <summary>
         /// Configures the <see cref="EscalationDefinition"/> to build to start a subtask when applying.

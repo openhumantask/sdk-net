@@ -34,6 +34,8 @@ namespace OpenHumanTask.Sdk.UnitTests.Cases.Services.IO
             await stream.FlushAsync();
             stream.Position = 0;
 
+            //var json = new StreamReader(stream).ReadToEnd();
+
             //act
             var deserialized = await this.Reader.ReadAsync(stream);
 
@@ -50,6 +52,9 @@ namespace OpenHumanTask.Sdk.UnitTests.Cases.Services.IO
             using var stream = new MemoryStream();
             await this.YamlSerializer.SerializeAsync(toSerialize, stream);
             await stream.FlushAsync();
+            stream.Position = 0;
+
+            var yaml = new StreamReader(stream).ReadToEnd();
             stream.Position = 0;
 
             //act

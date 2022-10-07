@@ -14,6 +14,7 @@
 
 namespace OpenHumanTask.Sdk.Models
 {
+
     /// <summary>
     /// Represents the <see href="https://github.com/openhumantask/specification/blob/main/specification.md#view-definitions">definition of a view</see>
     /// </summary>
@@ -37,11 +38,11 @@ namespace OpenHumanTask.Sdk.Models
         public virtual ViewRenderingMode RenderingMode { get; set; } = ViewRenderingMode.Process;
 
         /// <summary>
-        /// Gets/sets the view template
+        /// Gets/sets the view template. If a string, the raw template contents. If an object, the inline template. Can be a (or contain) runtime expression(s).
         /// </summary>
         [DataMember(Name = "template", Order = 3)]
         [JsonPropertyName("template")]
-        public virtual string Template { get; set; } = null!;
+        public virtual object Template { get; set; } = null!;
 
     }
 

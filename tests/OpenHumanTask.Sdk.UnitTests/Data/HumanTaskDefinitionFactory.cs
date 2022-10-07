@@ -40,24 +40,23 @@ namespace OpenHumanTask.Sdk.UnitTests.Data
                 //        .SetLocalizedOutcome("en", "fake-en-value")
                 //        .SetLocalizedOutcome("fr", "fake-fr-value"))
                 //.UseForm(form => )
-                .UseStartDeadline(deadline =>
-                    deadline
-                        .ElapsesAfter(TimeSpan.FromMinutes(30))
-                        .Escalates(escalation =>
-                            escalation.ReassignTask()))
-                .UseCompletionDeadline(deadline =>
-                    deadline
-                        .ElapsesAt(new(2023, 4, 4, 12, 30, 00, TimeSpan.Zero))
-                        .Escalates(escalation =>
-                            escalation
-                                .CreateSubtask(subtask =>
-                                    subtask
-                                        .WithDefinition("fake-namespace.fake-other-task:1.0.0-unitTest")
-                                        .WithInput(new { fakeProperty = "fake-value" }))))
+                //.UseStartDeadline(deadline =>
+                //    deadline
+                //        .ElapsesAfter(TimeSpan.FromMinutes(30))
+                //        .Escalates(then =>
+                //            then.Reassign()))
+                //.UseCompletionDeadline(deadline =>
+                //    deadline
+                //        .ElapsesAt(new(2023, 4, 4, 12, 30, 00, TimeSpan.Zero))
+                //        .Escalates(then =>
+                //            then.StartSubtask(subtask =>
+                //                subtask
+                //                    .WithDefinition("fake-namespace.fake-other-task:1.0.0-unitTest")
+                //                    .WithInput(new { fakeProperty = "fake-value" }))))
                 //.AddSubtask(subtask => 
                 //    subtask.WithDefinition("fake-namespace.fake-other-task:1.5.1-unitTest"))
                 .Build();
-            return new();
+            return definition;
         }
 
     }
