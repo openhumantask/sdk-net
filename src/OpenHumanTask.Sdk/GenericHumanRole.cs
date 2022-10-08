@@ -18,6 +18,7 @@ namespace OpenHumanTask.Sdk
     /// <summary>
     /// Enumerates all supported generic human task roles
     /// </summary>
+    [Flags]
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum GenericHumanRole
@@ -26,47 +27,47 @@ namespace OpenHumanTask.Sdk
         /// Indicates no role
         /// </summary>
         [EnumMember(Value = "none")]
-        None,
+        None = 0,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#potential-initiators">potentialInitiator</see>' role
         /// </summary>
         [EnumMember(Value = "potentialInitiator")]
-        PotentialInitiator,
+        PotentialInitiator = 1,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#initiator">initiator</see>' role
         /// </summary>
         [EnumMember(Value = "potentialInitiator")]
-        Initiator,
+        Initiator = 2,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#potential-owners">potentialOwner</see>' role
         /// </summary>
         [EnumMember(Value = "potentialOwner")]
-        PotentialOwner,
+        PotentialOwner = 4,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#excluded-owners">excludedOwner</see>' role
         /// </summary>
         [EnumMember(Value = "potentialOwner")]
-        ExcludedOwner,
+        ExcludedOwner = 8,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#actual-owner">actualOwner</see>' role
         /// </summary>
         [EnumMember(Value = "actualOwner")]
-        ActualOwner,
+        ActualOwner = 16,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#stakeholders">stakeholder</see>' role
         /// </summary>
         [EnumMember(Value = "stakeholder")]
-        Stakeholder,
+        Stakeholder = 32,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#business-administrators">businessAdministrator</see>' role
         /// </summary>
         [EnumMember(Value = "businessAdministrator")]
-        BusinessAdministrator,
+        BusinessAdministrator = 64,
         /// <summary>
         /// Indicates the '<see href="https://github.com/openhumantask/specification/blob/main/specification.md#notification-recipients">notificationRecipient</see>' role
         /// </summary>
         [EnumMember(Value = "businessAdministrator")]
-        NotificationRecipient
+        NotificationRecipient = 128
     }
 
 }

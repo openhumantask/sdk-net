@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<Version>0.1.1</Version>
+	<Version>0.1.2</Version>
 	<VersionSuffix>draft1</VersionSuffix>
     <NeutralLanguage>en-US</NeutralLanguage>	  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
