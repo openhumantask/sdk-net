@@ -21,6 +21,7 @@ namespace OpenHumanTask.Sdk.Models
     /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#human-task-definitions"/></remarks>
     [DataContract]
     public class HumanTaskDefinition
+        : IIdentifiable<string>
     {
 
         /// <summary>
@@ -32,6 +33,8 @@ namespace OpenHumanTask.Sdk.Models
         [DataMember(Name = "id", IsRequired = true, Order = 1)]
         [JsonPropertyName("id")]
         public virtual string Id { get; set; } = null!;
+
+        object IIdentifiable.Id => this.Id;
 
         /// <summary>
         /// Gets/sets the name of the <see cref="HumanTaskDefinition"/>.
