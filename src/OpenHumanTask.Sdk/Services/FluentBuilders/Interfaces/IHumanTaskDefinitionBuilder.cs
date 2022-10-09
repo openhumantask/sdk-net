@@ -115,6 +115,13 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         IHumanTaskDefinitionBuilder UseRoutingMode(HumanTaskRoutingMode routingMode);
 
         /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to be skipable or not.
+        /// </summary>
+        /// <param name="canBeSkipped">A boolean indicating whether instances of the <see cref="HumanTaskDefinition"/> can be skipped or not.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/>.</returns>
+        IHumanTaskDefinitionBuilder CanBeSkipped(bool canBeSkipped = true);
+
+        /// <summary>
         /// Configures the <see cref="HumanTaskDefinition"/> to build to use the specified culture-invariant title.
         /// </summary>
         /// <param name="title">The culture-invariant title to use.</param>

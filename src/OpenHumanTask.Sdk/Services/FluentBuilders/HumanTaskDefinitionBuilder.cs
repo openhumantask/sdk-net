@@ -144,6 +144,13 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder CanBeSkipped(bool canBeSkipped = true)
+        {
+            this.Definition.Skipable = canBeSkipped;
+            return this;
+        }
+
+        /// <inheritdoc/>
         public virtual IHumanTaskDefinitionBuilder WithTitle(string title)
         {
             this.Definition.Title = title;
@@ -293,7 +300,6 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
                 this.Definition.Id = HumanTaskDefinition.BuildId(this.Definition.Name, this.Definition.Namespace, this.Definition.Version);
             return this.Definition;
         }
-
 
     }
 
