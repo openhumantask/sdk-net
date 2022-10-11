@@ -12,6 +12,8 @@ namespace OpenHumanTask.Sdk.UnitTests.Data
                 .WithName("fake-task")
                 .WithNamespace("oht.sdk.unit-tests")
                 .WithVersion("1.0.0-unitTest")
+                .WithKey("${ fake-key-expression }")
+                .WithPriority("${ fake-priority-expression }")
                 .UseSpecVersion("0.1.0")
                 .UseExpressionLanguage("jq")
                 .UseAutomaticCompletionBehavior("reviewed", complete =>

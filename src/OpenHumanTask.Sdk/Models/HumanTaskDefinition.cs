@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json.Serialization.Converters;
+
 namespace OpenHumanTask.Sdk.Models
 {
 
@@ -103,65 +105,72 @@ namespace OpenHumanTask.Sdk.Models
         public virtual string? Key { get; set; }
 
         /// <summary>
+        /// Gets/sets the a value used to determine the priority of the <see cref="HumanTaskDefinition"/>'s instances. Can be an integer, in which case its defines a constant priority, or it can be a string, in which case it defines a runtime expression used to dynamically resolve the priority.
+        /// </summary>
+        [DataMember(Name = "priority", Order = 9)]
+        [JsonPropertyName("priority"), JsonConverter(typeof(JsonElementConverter))]
+        public virtual object? Priority { get; set; }
+
+        /// <summary>
         /// Gets a boolean indicating whether or not instances of the <see cref="HumanTaskDefinition"/> can be skipped
         /// </summary>
-        [DataMember(Name = "skipable", Order = 9)]
+        [DataMember(Name = "skipable", Order = 10)]
         [JsonPropertyName("skipable")]
         public virtual bool Skipable { get; set; } = false;
 
         /// <summary>
         /// Gets/sets an object containing the <see cref="HumanTaskDefinition"/>'s localized titles, mapped by two-letter ISO 639-1 language name. If a string, the culture-invariant title's value. If an object, the mappings of localized titles to their two-letter ISO 639-1 language names. Supports runtime expression.
         /// </summary>
-        [DataMember(Name = "title", Order = 10)]
-        [JsonPropertyName("title")]
+        [DataMember(Name = "title", Order = 11)]
+        [JsonPropertyName("title"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Title { get; set; }
 
         /// <summary>
         /// Gets/sets an object containing the <see cref="HumanTaskDefinition"/>'s localized subjects, mapped by two-letter ISO 639-1 language name. If a string, the culture-invariant subject's value. If an object, the mappings of localized subjects to their two-letter ISO 639-1 language names. Supports runtime expression.
         /// </summary>
-        [DataMember(Name = "subject", Order = 11)]
-        [JsonPropertyName("subject")]
+        [DataMember(Name = "subject", Order = 12)]
+        [JsonPropertyName("subject"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Subject { get; set; }
 
         /// <summary>
         /// Gets/sets an object containing the <see cref="HumanTaskDefinition"/>'s localized descriptions, mapped by two-letter ISO 639-1 language name. If a string, the culture-invariant description's value. If an object, the mappings of localized descriptions to their two-letter ISO 639-1 language names. Supports runtime expression.
         /// </summary>
-        [DataMember(Name = "description", Order = 12)]
-        [JsonPropertyName("description")]
+        [DataMember(Name = "description", Order = 13)]
+        [JsonPropertyName("description"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Description { get; set; }
 
         /// <summary>
         /// Gets/sets the <see cref="PeopleAssignmentsDefinition"/> used to configure the people assigned to the task as well as their respective roles.
         /// </summary>
-        [DataMember(Name = "peopleAssignments", Order = 13)]
+        [DataMember(Name = "peopleAssignments", Order = 14)]
         [JsonPropertyName("peopleAssignments")]
         public virtual PeopleAssignmentsDefinition? PeopleAssignments { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to configure the task's input data.
         /// </summary>
-        [DataMember(Name = "inputData", Order = 14)]
+        [DataMember(Name = "inputData", Order = 15)]
         [JsonPropertyName("inputData")]
         public virtual DataModelDefinition? InputData { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to configure the task's output data.
         /// </summary>
-        [DataMember(Name = "outputData", Order = 15)]
+        [DataMember(Name = "outputData", Order = 16)]
         [JsonPropertyName("outputData")]
         public virtual DataModelDefinition? OutputData { get; set; }
 
         /// <summary>
         /// Gets/sets the definition of the forms that will be presented to users when performing instances of the <see cref="HumanTaskDefinition"/>.
         /// </summary>
-        [DataMember(Name = "form", Order = 16)]
+        [DataMember(Name = "form", Order = 17)]
         [JsonPropertyName("form")]
         public virtual FormDefinition? Form { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="List{T}"/> containing the subtasks the <see cref="HumanTaskDefinition"/> is made out of.
         /// </summary>
-        [DataMember(Name = "subtasks", Order = 17)]
+        [DataMember(Name = "subtasks", Order = 18)]
         [JsonPropertyName("subtasks")]
         public virtual List<SubtaskDefinition>? Subtasks { get; set; }
 
@@ -169,43 +178,43 @@ namespace OpenHumanTask.Sdk.Models
         /// Gets/sets the way subtasks should be executed.
         /// </summary>
         [DefaultValue(SubtaskExecutionMode.Sequential)]
-        [DataMember(Name = "subtaskExecutionMode", Order = 18)]
+        [DataMember(Name = "subtaskExecutionMode", Order = 19)]
         [JsonPropertyName("subtaskExecutionMode")]
         public virtual SubtaskExecutionMode SubtaskExecutionMode { get; set; } = SubtaskExecutionMode.Sequential;
 
         /// <summary>
         /// Gets/sets an <see cref="List{T}"/> containing the <see cref="HumanTaskDefinition"/>'s <see cref="DeadlineDefinition"/>s.
         /// </summary>
-        [DataMember(Name = "deadlines", Order = 19)]
+        [DataMember(Name = "deadlines", Order = 20)]
         [JsonPropertyName("deadlines")]
         public virtual List<DeadlineDefinition>? Deadlines { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="List{T}"/> containing the <see cref="HumanTaskDefinition"/>'s <see cref="CompletionBehaviorDefinition"/>s.
         /// </summary>
-        [DataMember(Name = "completionBehaviors", Order = 20)]
+        [DataMember(Name = "completionBehaviors", Order = 21)]
         [JsonPropertyName("completionBehaviors")]
         public virtual List<CompletionBehaviorDefinition>? CompletionBehaviors { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="List{T}"/> containing the definitions of the task's possible outcomes.
         /// </summary>
-        [DataMember(Name = "outcomes", Order = 21)]
+        [DataMember(Name = "outcomes", Order = 22)]
         [JsonPropertyName("outcomes")]
         public virtual List<OutcomeDefinition>? Outcomes { get; set; }
 
         /// <summary>
         /// Gets/sets an <see cref="IDictionary{TKey, TValue}"/> containg key/value pairs of helpful terms used to describe the human task intended purpose, subject areas, or other important qualities.
         /// </summary>
-        [DataMember(Name = "annotations", Order = 22)]
+        [DataMember(Name = "annotations", Order = 23)]
         [JsonPropertyName("annotations")]
         public virtual Dictionary<string, string>? Annotations { get; set; }
 
         /// <summary>
         /// Gets/sets an object used to provide additional unstructured information about the human task definition. May be used by implementations to define additional functionality.
         /// </summary>
-        [DataMember(Name = "metadata", Order = 23)]
-        [JsonPropertyName("metadata")]
+        [DataMember(Name = "metadata", Order = 24)]
+        [JsonPropertyName("metadata"), JsonConverter(typeof(JsonElementConverter))]
         public virtual object? Metadata { get; set; }
 
         /// <inheritdoc/>
