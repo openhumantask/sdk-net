@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Dynamic;
 using System.Text.Json;
 
 namespace OpenHumanTask.Sdk
@@ -48,7 +49,7 @@ namespace OpenHumanTask.Sdk
         private static object? UnwrapObject(this JsonElement element)
         {
             var deserialized = System.Text.Json.JsonSerializer.Deserialize<IDictionary<string, JsonElement>>(element)!;
-            var unwrapped = new Dictionary<string, object?>(deserialized.Count);
+            var unwrapped = (IDictionary<string, object?>)new ExpandoObject();
             foreach (var kvp in deserialized)
             {
                 unwrapped.Add(kvp.Key, kvp.Value.ToObject());
