@@ -35,7 +35,7 @@ namespace OpenHumanTask.Sdk.Models
         /// <summary>
         /// Gets/sets a reference to the <see cref="HumanTaskDefinition"/> to instanciate.
         /// </summary>
-        [Required, MinLength(3)]
+        [Required]
         [DataMember(Name = "task", IsRequired = true, Order = 2)]
         [JsonPropertyName("task")]
         public virtual HumanTaskDefinitionReference Task { get; set; } = null!;
