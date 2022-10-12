@@ -75,6 +75,22 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         }
 
         /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder WithPriority(int? priority)
+        {
+            this.Definition.Priority = priority;
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public virtual IHumanTaskDefinitionBuilder WithPriority(string? expression)
+        {
+            if (!string.IsNullOrWhiteSpace(expression) && !expression.IsRuntimeExpression()) 
+                throw new ArgumentNullException(nameof(expression), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
+            this.Definition.Priority = expression;
+            return this;
+        }
+
+        /// <inheritdoc/>
         public virtual IHumanTaskDefinitionBuilder WithInputData(JSchema schema, object? state)
         {
             if (state != null && state is string expression && !expression.IsRuntimeExpression())

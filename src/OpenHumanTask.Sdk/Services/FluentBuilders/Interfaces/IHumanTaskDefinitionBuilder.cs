@@ -57,6 +57,20 @@ namespace OpenHumanTask.Sdk.Services.FluentBuilders
         IHumanTaskDefinitionBuilder WithKey(string? key);
 
         /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to use the specified constant priority.
+        /// </summary>
+        /// <param name="priority">The constant priority of all instances of the <see cref="HumanTaskDefinition"/> to build.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/>.</returns>
+        IHumanTaskDefinitionBuilder WithPriority(int? priority);
+
+        /// <summary>
+        /// Configures the <see cref="HumanTaskDefinition"/> to build to use the specified priority runtime expression.
+        /// </summary>
+        /// <param name="expression">A runtime expression used to dynamically resolve the priority of all instances of the <see cref="HumanTaskDefinition"/> to build.</param>
+        /// <returns>The configured <see cref="IHumanTaskDefinitionBuilder"/>.</returns>
+        IHumanTaskDefinitionBuilder WithPriority(string? expression);
+
+        /// <summary>
         /// Configures the <see cref="HumanTaskDefinition"/> to build to use the specified input data <see cref="JSchema"/> and initial state.
         /// </summary>
         /// <param name="schema">The <see cref="JSchema"/> of the <see cref="HumanTaskDefinition"/>'s input data.</param>
