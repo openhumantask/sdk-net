@@ -38,7 +38,7 @@ namespace OpenHumanTask.Sdk.Models
         [Required, MinLength(3)]
         [DataMember(Name = "task", IsRequired = true, Order = 2)]
         [JsonPropertyName("task")]
-        public virtual TaskDefinitionReference Task { get; set; } = null!;
+        public virtual HumanTaskDefinitionReference Task { get; set; } = null!;
 
         /// <summary>
         /// Gets/sets the data to pass as the subtask's input.

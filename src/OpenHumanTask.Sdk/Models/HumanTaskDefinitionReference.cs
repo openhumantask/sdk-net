@@ -19,7 +19,7 @@ namespace OpenHumanTask.Sdk.Models
     /// </summary>
     /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#task-definition-references"/></remarks>
     [DataContract]
-    public class TaskDefinitionReference
+    public class HumanTaskDefinitionReference
     {
 
         /// <summary>
@@ -55,28 +55,30 @@ namespace OpenHumanTask.Sdk.Models
         }
 
         /// <summary>
-        /// Parses the specified input into a new <see cref="TaskDefinitionReference"/>
+        /// Parses the specified input into a new <see cref="HumanTaskDefinitionReference"/>
         /// </summary>
         /// <param name="input">The input to parse</param>
-        /// <returns>A new <see cref="TaskDefinitionReference"/>.</returns>
-        public static TaskDefinitionReference? Parse(string input)
+        /// <returns>A new <see cref="HumanTaskDefinitionReference"/>.</returns>
+        public static HumanTaskDefinitionReference? Parse(string input)
         {
             if (string.IsNullOrWhiteSpace(input)) return default;
-            var components = input.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            var components = input.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            var namespaceAndName = components[0];
+            var version = components.Length == 2 ? components[1] : null;
+            components = namespaceAndName.Split('.', StringSplitOptions.RemoveEmptyEntries);
             if (components.Length < 2) throw new Exception($"The specified input '{input}' is not a valid task definition reference.");
-            var @namespace = components[0];
-            var name = components[1];
-            var version = components.Length == 3 ? components[2] : null;
-            return new() { Name = name, Namespace = @namespace, Version = version };
+            var name = components.Last();
+            var @namespace = namespaceAndName[..^(name.Length + 1)];
+            return new() { Namespace = @namespace, Name = name, Version = version };
         }
 
         /// <summary>
-        /// Attempts to parse the specified input into a new <see cref="TaskDefinitionReference"/>
+        /// Attempts to parse the specified input into a new <see cref="HumanTaskDefinitionReference"/>
         /// </summary>
         /// <param name="input">The input to parse</param>
-        /// <param name="reference">The resulting <see cref="TaskDefinitionReference"/>, if any</param>
-        /// <returns>A boolean indicating whether or not the specified input could be parsed into a new <see cref="TaskDefinitionReference"/></returns>
-        public static bool TryParse(string input, out TaskDefinitionReference? reference)
+        /// <param name="reference">The resulting <see cref="HumanTaskDefinitionReference"/>, if any</param>
+        /// <returns>A boolean indicating whether or not the specified input could be parsed into a new <see cref="HumanTaskDefinitionReference"/></returns>
+        public static bool TryParse(string input, out HumanTaskDefinitionReference? reference)
         {
             reference = default;
             try
@@ -91,20 +93,20 @@ namespace OpenHumanTask.Sdk.Models
         }
 
         /// <summary>
-        /// Implicitly converts the specified string into a new <see cref="TaskDefinitionReference"/>
+        /// Implicitly converts the specified string into a new <see cref="HumanTaskDefinitionReference"/>
         /// </summary>
         /// <param name="input">The input to parse</param>
-        public static implicit operator TaskDefinitionReference?(string input)
+        public static implicit operator HumanTaskDefinitionReference?(string input)
         {
             return Parse(input);
         }
 
         /// <summary>
-        /// Implicitly converts the specified <see cref="TaskDefinitionReference"/> into its string representation.
+        /// Implicitly converts the specified <see cref="HumanTaskDefinitionReference"/> into its string representation.
         /// </summary>
-        /// <param name="reference">The <see cref="TaskDefinitionReference"/> to convert.</param>
-        /// <returns>The specified <see cref="TaskDefinitionReference"/>'s string representation.</returns>
-        public static implicit operator string?(TaskDefinitionReference reference)
+        /// <param name="reference">The <see cref="HumanTaskDefinitionReference"/> to convert.</param>
+        /// <returns>The specified <see cref="HumanTaskDefinitionReference"/>'s string representation.</returns>
+        public static implicit operator string?(HumanTaskDefinitionReference reference)
         {
             return reference?.ToString();
         }
