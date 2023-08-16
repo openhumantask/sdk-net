@@ -14,53 +14,41 @@
 
 using System.Text.Json.Serialization.Converters;
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents the definition of a task's outcome.
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#outcome-definitions"/>.</remarks>
+[DataContract]
+public record OutcomeDefinition
 {
+
     /// <summary>
-    /// Represents the definition of a task's outcome.
+    /// Gets/sets the name of the <see cref="OutcomeDefinition"/>.
+    /// <para/>Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.*
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#outcome-definitions"/>.</remarks>
-    [DataContract]
-    public class OutcomeDefinition
-    {
+    [Required, MinLength(3)]
+    [DataMember(Name = "name", IsRequired = true, Order = 1), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
+    public virtual string Name { get; set; } = null!;
 
-        /// <summary>
-        /// Gets/sets the name of the <see cref="OutcomeDefinition"/>.
-        /// <para/>Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.*
-        /// </summary>
-        [Required, MinLength(3)]
-        [DataMember(Name = "name", IsRequired = true, Order = 1)]
-        [JsonPropertyName("name")]
-        public virtual string Name { get; set; } = null!;
+    /// <summary>
+    /// Gets/sets a runtime expression that determines whether or not the outcome applies. If not set, the <see cref="OutcomeDefinition"/> is the task's default.
+    /// </summary>
+    [DataMember(Name = "condition", Order = 2), JsonPropertyOrder(2), JsonPropertyName("condition"), YamlMember(Order = 2, Alias = "condition")]
+    public virtual string? Condition { get; set; }
 
-        /// <summary>
-        /// Gets/sets a runtime expression that determines whether or not the outcome applies. If not set, the <see cref="OutcomeDefinition"/> is the task's default.
-        /// </summary>
-        [DataMember(Name = "condition", Order = 2)]
-        [JsonPropertyName("condition")]
-        public virtual string? Condition { get; set; }
+    /// <summary>
+    /// Gets a boolean indicating whether or not the <see cref="OutcomeDefinition"/> is the task's default
+    /// </summary>
+    [IgnoreDataMember, JsonIgnore, YamlIgnore]
+    public virtual bool IsDefault => string.IsNullOrWhiteSpace(this.Condition);
 
-        /// <summary>
-        /// Gets a boolean indicating whether or not the <see cref="OutcomeDefinition"/> is the task's default
-        /// </summary>
-        [IgnoreDataMember]
-        [JsonIgnore]
-        [YamlIgnore]
-        public virtual bool IsDefault => string.IsNullOrWhiteSpace(this.Condition);
-
-        /// <summary>
-        /// Gets/sets he outcome's localized values. If a string, the culture-invariant outcome's value. If an object, the mappings of localized values to their two-letter ISO 639-1 language names.Must declare at least one language/value pair.
-        /// </summary>
-        [DataMember(Name = "value", Order = 4)]
-        [JsonPropertyName("value"), JsonConverter(typeof(JsonElementConverter))]
-        public virtual object? Value { get; set; }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return this.Name;
-        }
-
-    }
+    /// <summary>
+    /// Gets/sets he outcome's localized values. If a string, the culture-invariant outcome's value. If an object, the mappings of localized values to their two-letter ISO 639-1 language names.Must declare at least one language/value pair.
+    /// </summary>
+    [JsonConverter(typeof(JsonElementConverter))]
+    [DataMember(Name = "value", Order = 3), JsonPropertyOrder(3), JsonPropertyName("value"), YamlMember(Order = 3, Alias = "value")]
+    public virtual object? Value { get; set; }
 
 }

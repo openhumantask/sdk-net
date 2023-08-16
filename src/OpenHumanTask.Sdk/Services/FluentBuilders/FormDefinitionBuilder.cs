@@ -12,58 +12,54 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="IFormDefinitionBuilder"/> interface.
+/// </summary>
+public class FormDefinitionBuilder
+    : IFormDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="IFormDefinitionBuilder"/> interface.
+    /// Gets the <see cref="FormDefinition"/> to configure.
     /// </summary>
-    public class FormDefinitionBuilder
-        : IFormDefinitionBuilder
+    protected FormDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual IFormDefinitionBuilder WithData(JSchema schema, object? state)
     {
-
-        /// <summary>
-        /// Gets the <see cref="FormDefinition"/> to configure.
-        /// </summary>
-        protected FormDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual IFormDefinitionBuilder WithData(JSchema schema, object? state)
-        {
-            if (state != null && state is string expression && !expression.IsRuntimeExpression())
-                throw new ArgumentNullException(nameof(state), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
-            this.Definition.Data = new() { Schema = schema, State = state };
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IFormDefinitionBuilder WithData(JSchema schema)
-        {
-            if (this.Definition.Data == null) this.Definition.Data = new();
-            this.Definition.Data.Schema = schema;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IFormDefinitionBuilder WithData(object? state)
-        {
-            if (state != null && state is string expression && !expression.IsRuntimeExpression())
-                throw new ArgumentNullException(nameof(state), new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
-            if (this.Definition.Data == null) this.Definition.Data = new();
-            this.Definition.Data.State = state;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IFormDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup)
-        {
-            if (setup == null) throw new ArgumentNullException(nameof(setup));
-
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual FormDefinition Build() => this.Definition;
-
+        if (state != null && state is string expression && !expression.IsRuntimeExpression()) throw new ArgumentNullException($"Invalid '{nameof(state)}' argument", new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
+        this.Definition.Data = new() { Schema = schema, State = state };
+        return this;
     }
+
+    /// <inheritdoc/>
+    public virtual IFormDefinitionBuilder WithData(JSchema schema)
+    {
+        if (this.Definition.Data == null) this.Definition.Data = new();
+        this.Definition.Data.Schema = schema;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IFormDefinitionBuilder WithData(object? state)
+    {
+        if (state != null && state is string expression && !expression.IsRuntimeExpression()) throw new ArgumentNullException($"Invalid '{nameof(state)}' argument", new FormatException($"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
+        if (this.Definition.Data == null) this.Definition.Data = new();
+        this.Definition.Data.State = state;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IFormDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup)
+    {
+        if (setup == null) throw new ArgumentNullException(nameof(setup));
+        //todo
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual FormDefinition Build() => this.Definition;
 
 }

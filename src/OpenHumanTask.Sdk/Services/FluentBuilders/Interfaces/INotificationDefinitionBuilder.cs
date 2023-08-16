@@ -12,34 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="NotificationDefinition"/>s
+/// </summary>
+public interface INotificationDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="NotificationDefinition"/>s
+    /// Configures the name of the <see cref="NotificationDefinition"/> to build.
     /// </summary>
-    public interface INotificationDefinitionBuilder
-    {
+    /// <param name="name">The name of the human task definition. Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.</param>
+    /// <returns>The configured <see cref="INotificationDefinitionBuilder"/>.</returns>
+    INotificationDefinitionBuilder WithName(string name);
 
-        /// <summary>
-        /// Configures the name of the <see cref="NotificationDefinition"/> to build.
-        /// </summary>
-        /// <param name="name">The name of the human task definition. Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.</param>
-        /// <returns>The configured <see cref="INotificationDefinitionBuilder"/>.</returns>
-        INotificationDefinitionBuilder WithName(string name);
+    /// <summary>
+    /// Configures the <see cref="NotificationDefinition"/> to build to be displayed using the specified view.
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to build the <see cref="NotificationDefinition"/>'s <see cref="ViewDefinition"/>.</param>
+    /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
+    INotificationDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup);
 
-        /// <summary>
-        /// Configures the <see cref="NotificationDefinition"/> to build to be displayed using the specified view.
-        /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to build the <see cref="NotificationDefinition"/>'s <see cref="ViewDefinition"/>.</param>
-        /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
-        INotificationDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup);
-
-        /// <summary>
-        /// Builds the configured <see cref="NotificationDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="NotificationDefinition"/></returns>
-        NotificationDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="NotificationDefinition"/>
+    /// </summary>
+    /// <returns>A new <see cref="NotificationDefinition"/></returns>
+    NotificationDefinition Build();
 
 }

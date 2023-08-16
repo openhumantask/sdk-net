@@ -12,46 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents the definition of an escalation that occurs if the human task has not reached a given status before a specific date and time, or before a given amount of time.
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#escalation-definitions"/></remarks>
+[DataContract]
+public record EscalationDefinition
 {
+
     /// <summary>
-    /// Represents the definition of an escalation that occurs if the human task has not reached a given status before a specific date and time, or before a given amount of time.
+    /// Gets/sets the name of the <see cref="EscalationDefinition"/>.
+    /// <para/>Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#escalation-definitions"/></remarks>
-    [DataContract]
-    public class EscalationDefinition
-    {
+    [Required, MinLength(3)]
+    [DataMember(Name = "name", IsRequired = true, Order = 1), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
+    public virtual string Name { get; set; } = null!;
 
-        /// <summary>
-        /// Gets/sets the name of the <see cref="EscalationDefinition"/>.
-        /// <para/>Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.
-        /// </summary>
-        [Required, MinLength(3)]
-        [DataMember(Name = "name", IsRequired = true, Order = 1)]
-        [JsonPropertyName("name")]
-        public virtual string Name { get; set; } = null!;
+    /// <summary>
+    /// Gets/sets a runtime expression that determines whether or not the deadline applies.
+    /// </summary>
+    [DataMember(Name = "condition", Order = 2), JsonPropertyOrder(2), JsonPropertyName("condition"), YamlMember(Order = 2, Alias = "condition")]
+    public virtual string? Condition { get; set; }
 
-        /// <summary>
-        /// Gets/sets a runtime expression that determines whether or not the deadline applies.
-        /// </summary>
-        [DataMember(Name = "condition", Order = 2)]
-        [JsonPropertyName("condition")]
-        public virtual string? Condition { get; set; }
-
-        /// <summary>
-        /// Gets/sets an object used to configured the escalation action to perform
-        /// </summary>
-        [Required]
-        [DataMember(Name = "action", IsRequired = true, Order = 3)]
-        [JsonPropertyName("action")]
-        public virtual EscalationActionDefinition Action { get; set; } = null!;
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return this.Name;
-        }
-
-    }
+    /// <summary>
+    /// Gets/sets an object used to configured the escalation action to perform
+    /// </summary>
+    [Required]
+    [DataMember(Name = "action", IsRequired = true, Order = 3), JsonPropertyOrder(3), JsonPropertyName("action"), YamlMember(Order = 3, Alias = "action")]
+    public virtual EscalationActionDefinition Action { get; set; } = null!;
 
 }

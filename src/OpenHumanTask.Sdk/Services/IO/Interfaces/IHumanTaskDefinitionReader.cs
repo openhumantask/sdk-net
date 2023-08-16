@@ -12,23 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.IO
+namespace OpenHumanTask.Sdk.Services.IO;
+
+/// <summary>
+/// Defines the fundamentals of a service used to read <see cref="HumanTaskDefinition"/>s.
+/// </summary>
+public interface IHumanTaskDefinitionReader
 {
 
     /// <summary>
-    /// Defines the fundamentals of a service used to read <see cref="HumanTaskDefinition"/>s.
+    /// Reads a <see cref="HumanTaskDefinition"/> from the specified <see cref="Stream"/>
     /// </summary>
-    public interface IHumanTaskDefinitionReader
-    {
-
-        /// <summary>
-        /// Reads a <see cref="HumanTaskDefinition"/> from the specified <see cref="Stream"/>
-        /// </summary>
-        /// <param name="stream">The <see cref="Stream"/> to read the <see cref="HumanTaskDefinition"/> from</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
-        /// <returns>A new <see cref="HumanTaskDefinition"/></returns>
-        Task<HumanTaskDefinition> ReadAsync(Stream stream, CancellationToken cancellationToken = default);
-
-    }
+    /// <param name="stream">The <see cref="Stream"/> to read the <see cref="HumanTaskDefinition"/> from</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/></param>
+    /// <returns>A new <see cref="HumanTaskDefinition"/></returns>
+    Task<HumanTaskDefinition> ReadAsync(Stream stream, CancellationToken cancellationToken = default);
 
 }

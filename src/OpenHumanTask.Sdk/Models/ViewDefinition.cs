@@ -14,38 +14,33 @@
 
 using System.Text.Json.Serialization.Converters;
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents the <see href="https://github.com/openhumantask/specification/blob/main/specification.md#view-definitions">definition of a view</see>
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#view-definitions"/></remarks>
+[DataContract]
+public record ViewDefinition
 {
 
     /// <summary>
-    /// Represents the <see href="https://github.com/openhumantask/specification/blob/main/specification.md#view-definitions">definition of a view</see>
+    /// Gets/sets the view type
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#view-definitions"/></remarks>
-    [DataContract]
-    public class ViewDefinition
-    {
+    [DataMember(Name = "type", Order = 1), JsonPropertyOrder(1), JsonPropertyName("type"), YamlMember(Order = 1, Alias = "type")]
+    public virtual string Type { get; set; } = null!;
 
-        /// <summary>
-        /// Gets/sets the view type
-        /// </summary>
-        [DataMember(Name = "type", Order = 1)]
-        [JsonPropertyName("type")]
-        public virtual string Type { get; set; } = null!;
+    /// <summary>
+    /// Gets/sets the view's rendering mode
+    /// </summary>
+    [DataMember(Name = "renderingMode", Order = 2), JsonPropertyOrder(2), JsonPropertyName("renderingMode"), YamlMember(Order = 2, Alias = "renderingMode")]
+    public virtual ViewRenderingMode RenderingMode { get; set; } = ViewRenderingMode.Process;
 
-        /// <summary>
-        /// Gets/sets the view's rendering mode
-        /// </summary>
-        [DataMember(Name = "renderingMode", Order = 2)]
-        [JsonPropertyName("renderingMode")]
-        public virtual ViewRenderingMode RenderingMode { get; set; } = ViewRenderingMode.Process;
-
-        /// <summary>
-        /// Gets/sets the view template. If a string, the raw template contents. If an object, the inline template. Can be a (or contain) runtime expression(s).
-        /// </summary>
-        [DataMember(Name = "template", Order = 3)]
-        [JsonPropertyName("template"), JsonConverter(typeof(JsonElementConverter))]
-        public virtual object Template { get; set; } = null!;
-
-    }
+    /// <summary>
+    /// Gets/sets the view template. If a string, the raw template contents. If an object, the inline template. Can be a (or contain) runtime expression(s).
+    /// </summary>
+    [JsonConverter(typeof(JsonElementConverter))]
+    [DataMember(Name = "template", Order = 3), JsonPropertyOrder(3), JsonPropertyName("template"), YamlMember(Order = 3, Alias = "template")]
+    public virtual object Template { get; set; } = null!;
 
 }

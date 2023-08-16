@@ -16,45 +16,42 @@ using FluentValidation;
 using OpenHumanTask.Sdk.Services.IO;
 using YamlDotNet.Serialization.NodeDeserializers;
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Defines extensions for <see cref="IServiceCollection"/>s
+/// </summary>
+public static class IServiceCollectionExtensions
 {
 
     /// <summary>
-    /// Defines extensions for <see cref="IServiceCollection"/>s
+    /// Adds and configures Open Human Task services (<see cref="Neuroglia.Serialization.ISerializer"/>s, <see cref="IHumanTaskDefinitionReader"/>, ...)
     /// </summary>
-    public static class IServiceCollectionExtensions
+    /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
+    /// <returns>The configured <see cref="IServiceCollection"/></returns>
+    public static IServiceCollection AddOpenHumanTask(this IServiceCollection services)
     {
-
-        /// <summary>
-        /// Adds and configures Open Human Task services (<see cref="Neuroglia.Serialization.ISerializer"/>s, <see cref="IHumanTaskDefinitionReader"/>, <see cref="IHumanTaskWriter"/>, ...)
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> to configure</param>
-        /// <returns>The configured <see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddOpenHumanTask(this IServiceCollection services)
+        services.AddJsonSerializer(options =>
         {
-            services.AddJsonSerializer(options =>
-            {
-                options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-            });
-            services.AddYamlDotNetSerializer(
-               serializer => serializer
-                   .IncludeNonPublicProperties()
-                   .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor))
-                   .WithTypeConverter(new Serialization.Yaml.Iso8601TimeSpanConverter())
-                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
-                   .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()),
-               deserializer => deserializer
-                   .WithNodeDeserializer(
-                       inner => new Iso8601TimeSpanConverter(inner),
-                       syntax => syntax.InsteadOf<ScalarNodeDeserializer>())
-                   .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
-                   .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()));
-            services.AddHttpClient();
-            services.AddSingleton<IHumanTaskDefinitionReader, HumanTaskDefinitionReader>();
-            services.AddValidatorsFromAssemblyContaining<IHumanTaskDefinitionReader>(ServiceLifetime.Singleton);
-            return services;
-        }
-
+            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+        });
+        services.AddYamlDotNetSerializer(
+           serializer => serializer
+               .IncludeNonPublicProperties()
+               .WithEmissionPhaseObjectGraphVisitor(args => new ChainedObjectGraphVisitor(args.InnerVisitor))
+               .WithTypeConverter(new Serialization.Yaml.Iso8601TimeSpanConverter())
+               .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
+               .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()),
+           deserializer => deserializer
+               .WithNodeDeserializer(
+                   inner => new Iso8601TimeSpanConverter(inner),
+                   syntax => syntax.InsteadOf<ScalarNodeDeserializer>())
+               .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
+               .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()));
+        services.AddHttpClient();
+        services.AddSingleton<IHumanTaskDefinitionReader, HumanTaskDefinitionReader>();
+        services.AddValidatorsFromAssemblyContaining<IHumanTaskDefinitionReader>(ServiceLifetime.Singleton);
+        return services;
     }
 
 }

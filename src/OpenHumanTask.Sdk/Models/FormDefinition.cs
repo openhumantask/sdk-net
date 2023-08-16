@@ -12,30 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents the <see href="https://github.com/openhumantask/specification/blob/main/specification.md#form-definitions">definition of a human task form</see>
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#form-definitions"/></remarks>
+[DataContract]
+public record FormDefinition
 {
+
     /// <summary>
-    /// Represents the <see href="https://github.com/openhumantask/specification/blob/main/specification.md#form-definitions">definition of a human task form</see>
+    /// Gets/sets the <see cref="DataModelDefinition"/> used to describe the form's data, if any
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#form-definitions"/></remarks>
-    [DataContract]
-    public class FormDefinition
-    {
+    [DataMember(Name = "data", Order = 1), JsonPropertyOrder(1), JsonPropertyName("data"), YamlMember(Order = 1, Alias = "data")]
+    public virtual DataModelDefinition? Data { get; set; }
 
-        /// <summary>
-        /// Gets/sets the <see cref="DataModelDefinition"/> used to describe the form's data, if any
-        /// </summary>
-        [DataMember(Name = "data", Order = 1)]
-        [JsonPropertyName("data")]
-        public virtual DataModelDefinition? Data { get; set; }
-
-        /// <summary>
-        /// Gets/sets an <see cref="List{T}"/> containing the form's <see cref="ViewDefinition"/>s
-        /// </summary>
-        [DataMember(Name = "views", Order = 2)]
-        [JsonPropertyName("views")]
-        public virtual List<ViewDefinition> Views { get; set; } = new List<ViewDefinition>();
-
-    }
+    /// <summary>
+    /// Gets/sets an <see cref="List{T}"/> containing the form's <see cref="ViewDefinition"/>s
+    /// </summary>
+    [Required, MinLength(1)]
+    [DataMember(Name = "views", Order = 2), JsonPropertyOrder(2), JsonPropertyName("views")]
+    public virtual List<ViewDefinition> Views { get; set; } = new List<ViewDefinition>();
 
 }

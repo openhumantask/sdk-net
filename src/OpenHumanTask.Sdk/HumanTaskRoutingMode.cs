@@ -12,32 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Enumerates all supported routing modes for human tasks
+/// </summary>
+[Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum HumanTaskRoutingMode
 {
-
     /// <summary>
-    /// Enumerates all supported routing modes for human tasks
+    /// Indicates that the task does not perform any routing.
     /// </summary>
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum HumanTaskRoutingMode
-    {
-        /// <summary>
-        /// Indicates that the task does not perform any routing.
-        /// </summary>
-        [EnumMember(Value = "none")]
-        None,
-        /// <summary>
-        /// Indicates that a new subtask will be created and assigned to the first resolved potential owner. 
-        /// The runtime will then wait for the subtask's completion, will then assign a new one to the next potential owner, and will finally repeat those steps until all potential owner have performed the task.
-        /// </summary>
-        [EnumMember(Value = "sequential ")]
-        Sequential,
-        /// <summary>
-        /// Indicates that a subtask will be created for each and every potential owner. The resulting subtasks are performed by their actual owner in parallel.
-        /// </summary>
-        [EnumMember(Value = "parallel")]
-        Parallel
-    }
-
+    [EnumMember(Value = "none")]
+    None,
+    /// <summary>
+    /// Indicates that a new subtask will be created and assigned to the first resolved potential owner. 
+    /// The runtime will then wait for the subtask's completion, will then assign a new one to the next potential owner, and will finally repeat those steps until all potential owner have performed the task.
+    /// </summary>
+    [EnumMember(Value = "sequential ")]
+    Sequential,
+    /// <summary>
+    /// Indicates that a subtask will be created for each and every potential owner. The resulting subtasks are performed by their actual owner in parallel.
+    /// </summary>
+    [EnumMember(Value = "parallel")]
+    Parallel
 }

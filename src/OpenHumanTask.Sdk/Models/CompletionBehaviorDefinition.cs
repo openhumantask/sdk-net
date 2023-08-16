@@ -14,64 +14,51 @@
 
 using System.Text.Json.Serialization.Converters;
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents a task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#completion-behavior-definitions">completion behavior definition.</see>
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#completion-behavior-definitions"/></remarks>
+[DataContract]
+public record CompletionBehaviorDefinition
 {
+
     /// <summary>
-    /// Represents a task's <see href="https://github.com/openhumantask/specification/blob/main/specification.md#completion-behavior-definitions">completion behavior definition.</see>
+    /// Gets/sets the name of the <see cref="CompletionBehaviorDefinition"/>.
+    /// <para/>Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.*
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#completion-behavior-definitions"/></remarks>
-    [DataContract]
-    public class CompletionBehaviorDefinition
-    {
+    [Required, MinLength(3)]
+    [DataMember(Name = "name", IsRequired = true, Order = 1), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
+    public virtual string Name { get; set; } = null!;
 
-        /// <summary>
-        /// Gets/sets the name of the <see cref="CompletionBehaviorDefinition"/>.
-        /// <para/>Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.*
-        /// </summary>
-        [Required, MinLength(3)]
-        [DataMember(Name = "name", IsRequired = true, Order = 1)]
-        [JsonPropertyName("name")]
-        public virtual string Name { get; set; } = null!;
+    /// <summary>
+    /// Gets/sets the <see cref="CompletionBehaviorDefinition"/>'s type
+    /// </summary>
+    [Required, DefaultValue(CompletionBehaviorType.Automatic)]
+    [DataMember(Name = "type", IsRequired = true, Order = 2), JsonPropertyOrder(2), JsonPropertyName("type"), YamlMember(Order = 2, Alias = "type")]
+    public virtual CompletionBehaviorType Type { get; set; } = CompletionBehaviorType.Automatic;
 
-        /// <summary>
-        /// Gets/sets the <see cref="CompletionBehaviorDefinition"/>'s type
-        /// </summary>
-        [Required, DefaultValue(CompletionBehaviorType.Automatic)]
-        [DataMember(Name = "type", IsRequired = true, Order = 2)]
-        [JsonPropertyName("type")]
-        public virtual CompletionBehaviorType Type { get; set; } = CompletionBehaviorType.Automatic;
+    /// <summary>
+    /// Gets/sets a runtime expression that determines whether or not the completion behavior applies. If not set, the <see cref="CompletionBehaviorDefinition"/> is the task's default.
+    /// </summary>
+    [DataMember(Name = "condition", Order = 3), JsonPropertyOrder(3), JsonPropertyName("condition"), YamlMember(Order = 3, Alias = "condition")]
+    public virtual string? Condition { get; set; }
 
-        /// <summary>
-        /// Gets/sets a runtime expression that determines whether or not the completion behavior applies. If not set, the <see cref="CompletionBehaviorDefinition"/> is the task's default.
-        /// </summary>
-        [DataMember(Name = "condition", Order = 3)]
-        [JsonPropertyName("condition")]
-        public virtual string? Condition { get; set; }
+    /// <summary>
+    /// Gets a boolean indicating whether or not the <see cref="CompletionBehaviorDefinition"/> is the task's default
+    /// </summary>
+    [IgnoreDataMember, JsonIgnore, YamlIgnore]
+    public virtual bool IsDefault => string.IsNullOrWhiteSpace(this.Condition);
 
-        /// <summary>
-        /// Gets a boolean indicating whether or not the <see cref="CompletionBehaviorDefinition"/> is the task's default
-        /// </summary>
-        [IgnoreDataMember]
-        [JsonIgnore]
-        [YamlIgnore]
-        public virtual bool IsDefault => string.IsNullOrWhiteSpace(this.Condition);
-
-        /// <summary>
-        /// Gets/sets the data to use as the task's output.
-        /// <para/>If a string, is a runtime expression used to build the task's output data based on contextual data.
-        /// <para/>If an object, represents the task's output data. Runtime expressions can be used in any and all properties, at whichever depth.
-        /// <para/>If not set, no output data is specified.
-        /// </summary>
-        [DataMember(Name = "output", Order = 4)]
-        [JsonPropertyName("output"), JsonConverter(typeof(JsonElementConverter))]
-        public virtual object? Output { get; set; }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return this.Name;
-        }
-
-    }
+    /// <summary>
+    /// Gets/sets the data to use as the task's output.
+    /// <para/>If a string, is a runtime expression used to build the task's output data based on contextual data.
+    /// <para/>If an object, represents the task's output data. Runtime expressions can be used in any and all properties, at whichever depth.
+    /// <para/>If not set, no output data is specified.
+    /// </summary>
+    [JsonConverter(typeof(JsonElementConverter))]
+    [DataMember(Name = "output", Order = 4), JsonPropertyOrder(4), JsonPropertyName("output"), YamlMember(Order = 4, Alias = "output")]
+    public virtual object? Output { get; set; }
 
 }

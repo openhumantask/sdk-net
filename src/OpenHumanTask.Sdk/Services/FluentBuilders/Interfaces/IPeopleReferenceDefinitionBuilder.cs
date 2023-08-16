@@ -12,32 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="PeopleReferenceDefinition"/>s
+/// </summary>
+public interface IPeopleReferenceDefinitionBuilder
 {
 
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="PeopleReferenceDefinition"/>s
+    /// Configures the <see cref="PeopleReferenceDefinition"/> to build to reference the specified user
     /// </summary>
-    public interface IPeopleReferenceDefinitionBuilder
-    {
+    /// <param name="userIdentifier">The identifier of the user to reference</param>
+    void User(string userIdentifier);
 
-        /// <summary>
-        /// Configures the <see cref="PeopleReferenceDefinition"/> to build to reference the specified user
-        /// </summary>
-        /// <param name="userIdentifier">The identifier of the user to reference</param>
-        void User(string userIdentifier);
+    /// <summary>
+    /// Configures the <see cref="PeopleReferenceDefinition"/> to build to reference the specified users
+    /// </summary>
+    IUsersReferenceDefinitionBuilder Users();
 
-        /// <summary>
-        /// Configures the <see cref="PeopleReferenceDefinition"/> to build to reference the specified users
-        /// </summary>
-        IUsersReferenceDefinitionBuilder Users();
-
-        /// <summary>
-        /// Builds the configured <see cref="PeopleReferenceDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="PeopleReferenceDefinition"/></returns>
-        PeopleReferenceDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="PeopleReferenceDefinition"/>
+    /// </summary>
+    /// <returns>A new <see cref="PeopleReferenceDefinition"/></returns>
+    PeopleReferenceDefinition Build();
 
 }

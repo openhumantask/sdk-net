@@ -15,30 +15,27 @@
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the service used to build claim-based <see cref="UsersReferenceDefinition"/>
+/// </summary>
+public interface IClaimBasedUserReferenceDefinitionBuilder
 {
 
     /// <summary>
-    /// Defines the service used to build claim-based <see cref="UsersReferenceDefinition"/>
+    /// Configures the <see cref="UsersReferenceDefinition"/> to build to filter users to reference based on their <see cref="Claim"/>s.
     /// </summary>
-    public interface IClaimBasedUserReferenceDefinitionBuilder
-    {
+    /// <param name="type">The type of the <see cref="Claim"/> users to filter must own. Allows for <see cref="Regex"/>es.</param>
+    /// <param name="value">The optional value of the specified <see cref="Claim"/> users to filter must own. Allows for <see cref="Regex"/>es.</param>
+    /// <returns>The configured <see cref="IClaimBasedUserReferenceDefinitionBuilder"/></returns>
+    IClaimBasedUserReferenceDefinitionBuilder WithClaim(string type, string? value = null);
 
-        /// <summary>
-        /// Configures the <see cref="UsersReferenceDefinition"/> to build to filter users to reference based on their <see cref="Claim"/>s.
-        /// </summary>
-        /// <param name="type">The type of the <see cref="Claim"/> users to filter must own. Allows for <see cref="Regex"/>es.</param>
-        /// <param name="value">The optional value of the specified <see cref="Claim"/> users to filter must own. Allows for <see cref="Regex"/>es.</param>
-        /// <returns>The configured <see cref="IClaimBasedUserReferenceDefinitionBuilder"/></returns>
-        IClaimBasedUserReferenceDefinitionBuilder WithClaim(string type, string? value = null);
-
-        /// <summary>
-        /// Configures the <see cref="UsersReferenceDefinition"/> to build to filter users to reference based on their <see cref="Claim"/>s.
-        /// </summary>
-        /// <param name="value">The optional value of a <see cref="Claim"/> users to filter must own. Allows for <see cref="Regex"/>es.</param>
-        /// <returns>The configured <see cref="IClaimBasedUserReferenceDefinitionBuilder"/></returns>
-        IClaimBasedUserReferenceDefinitionBuilder WithClaimValue(string value);
-
-    }
+    /// <summary>
+    /// Configures the <see cref="UsersReferenceDefinition"/> to build to filter users to reference based on their <see cref="Claim"/>s.
+    /// </summary>
+    /// <param name="value">The optional value of a <see cref="Claim"/> users to filter must own. Allows for <see cref="Regex"/>es.</param>
+    /// <returns>The configured <see cref="IClaimBasedUserReferenceDefinitionBuilder"/></returns>
+    IClaimBasedUserReferenceDefinitionBuilder WithClaimValue(string value);
 
 }

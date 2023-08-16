@@ -12,30 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents an object used to reference a user or a group of users based on given parameters.
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#people-reference-definitions"/></remarks>
+[DataContract]
+public record PeopleReferenceDefinition
 {
+
     /// <summary>
-    /// Represents an object used to reference a user or a group of users based on given parameters.
+    /// Gets/sets an identifier used to reference a single the user. Required if the '<see cref="Users"/>' property has not been set.
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#people-reference-definitions"/></remarks>
-    [DataContract]
-    public class PeopleReferenceDefinition
-    {
+    [DataMember(Name = "user", Order = 1), JsonPropertyOrder(1), JsonPropertyName("user"), YamlMember(Order = 1, Alias = "user")]
+    public virtual string? User { get; set; }
 
-        /// <summary>
-        /// Gets/sets an identifier used to reference a single the user. Required if the '<see cref="Users"/>' property has not been set.
-        /// </summary>
-        [DataMember(Name = "user", Order = 1)]
-        [JsonPropertyName("user")]
-        public virtual string? User { get; set; }
-
-        /// <summary>
-        /// Gets/sets an object used to reference multiple users. Required if the '<see cref="User"/>' property has not been set.
-        /// </summary>
-        [DataMember(Name = "users", Order = 2)]
-        [JsonPropertyName("users")]
-        public virtual UsersReferenceDefinition? Users { get; set; }
-
-    }
+    /// <summary>
+    /// Gets/sets an object used to reference multiple users. Required if the '<see cref="User"/>' property has not been set.
+    /// </summary>
+    [DataMember(Name = "users", Order = 2), JsonPropertyOrder(2), JsonPropertyName("users"), YamlMember(Order = 2, Alias = "users")]
+    public virtual UsersReferenceDefinition? Users { get; set; }
 
 }

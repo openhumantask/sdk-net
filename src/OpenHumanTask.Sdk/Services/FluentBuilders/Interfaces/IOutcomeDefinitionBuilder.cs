@@ -12,49 +12,47 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="OutcomeDefinition"/>s.
+/// </summary>
+public interface IOutcomeDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="OutcomeDefinition"/>s.
+    /// Configures the name of the <see cref="OutcomeDefinition"/> to build.
     /// </summary>
-    public interface IOutcomeDefinitionBuilder
-    {
+    /// <param name="name">The name of the <see cref="OutcomeDefinition"/> to build.</param>
+    /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
+    IOutcomeDefinitionBuilder WithName(string name);
 
-        /// <summary>
-        /// Configures the name of the <see cref="OutcomeDefinition"/> to build.
-        /// </summary>
-        /// <param name="name">The name of the <see cref="OutcomeDefinition"/> to build.</param>
-        /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
-        IOutcomeDefinitionBuilder WithName(string name);
+    /// <summary>
+    /// Configures the runtime expression to used to determine whether or not the <see cref="OutcomeDefinition"/> to build applies
+    /// </summary>
+    /// <param name="condition">The runtime expression used to determine whether or not the <see cref="OutcomeDefinition"/> to build applies</param>
+    /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
+    IOutcomeDefinitionBuilder When(string? condition);
 
-        /// <summary>
-        /// Configures the runtime expression to used to determine whether or not the <see cref="OutcomeDefinition"/> to build applies
-        /// </summary>
-        /// <param name="condition">The runtime expression used to determine whether or not the <see cref="OutcomeDefinition"/> to build applies</param>
-        /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
-        IOutcomeDefinitionBuilder When(string? condition);
+    /// <summary>
+    /// Configures the <see cref="OutcomeDefinition"/> to build to output the specified value when it applies.
+    /// </summary>
+    /// <param name="language">The two-letter ISO 639-1 code of the language the specified value is expressed in.</param>
+    /// <param name="value">The value to output.</param>
+    /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
+    IOutcomeDefinitionBuilder Outputs(string language, string? value);
 
-        /// <summary>
-        /// Configures the <see cref="OutcomeDefinition"/> to build to output the specified value when it applies.
-        /// </summary>
-        /// <param name="language">The two-letter ISO 639-1 code of the language the specified value is expressed in.</param>
-        /// <param name="value">The value to output.</param>
-        /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
-        IOutcomeDefinitionBuilder Outputs(string language, string? value);
+    /// <summary>
+    /// Configures the <see cref="OutcomeDefinition"/> to build to output the specified value when it applies.
+    /// </summary>
+    /// <param name="value">The culture-invariant value to output.</param>
+    /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
+    IOutcomeDefinitionBuilder Outputs(string? value);
 
-        /// <summary>
-        /// Configures the <see cref="OutcomeDefinition"/> to build to output the specified value when it applies.
-        /// </summary>
-        /// <param name="value">The culture-invariant value to output.</param>
-        /// <returns>The configured <see cref="IOutcomeDefinitionBuilder"/>.</returns>
-        IOutcomeDefinitionBuilder Outputs(string? value);
-
-        /// <summary>
-        /// Builds the configured <see cref="OutcomeDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="OutcomeDefinition"/></returns>
-        OutcomeDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="OutcomeDefinition"/>
+    /// </summary>
+    /// <returns>A new <see cref="OutcomeDefinition"/></returns>
+    OutcomeDefinition Build();
 
 }

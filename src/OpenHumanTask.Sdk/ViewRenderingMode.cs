@@ -12,31 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Enumerates all support rendering modes for views
+/// </summary>
+[Flags]
+[Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum ViewRenderingMode
 {
     /// <summary>
-    /// Enumerates all support rendering modes for views
+    /// Indicates that no processing should be performed, and that the template should be served raw.
     /// </summary>
-    [Flags]
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum ViewRenderingMode
-    {
-        /// <summary>
-        /// Indicates that no processing should be performed, and that the template should be served raw.
-        /// </summary>
-        [EnumMember(Value = "none")]
-        None = 0,
-        /// <summary>
-        /// Indicates the default rendering mode. The raw template is pre-processed in search of runtime expressions it interpolates after evaluation.
-        /// </summary>
-        [EnumMember(Value = "process")]
-        Process = 1,
-        /// <summary>
-        /// Indicates that the template should be pre-rendered by the server before being served to consumers.
-        /// </summary>
-        [EnumMember(Value = "render")]
-        Render = 2
-    }
-
+    [EnumMember(Value = "none")]
+    None = 0,
+    /// <summary>
+    /// Indicates the default rendering mode. The raw template is pre-processed in search of runtime expressions it interpolates after evaluation.
+    /// </summary>
+    [EnumMember(Value = "process")]
+    Process = 1,
+    /// <summary>
+    /// Indicates that the template should be pre-rendered by the server before being served to consumers.
+    /// </summary>
+    [EnumMember(Value = "render")]
+    Render = 2
 }

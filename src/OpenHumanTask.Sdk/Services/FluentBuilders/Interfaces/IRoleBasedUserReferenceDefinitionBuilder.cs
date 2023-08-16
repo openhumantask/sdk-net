@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="GenericHumanRole"/>-based <see cref="UsersReferenceDefinition"/>s.
+/// </summary>
+public interface IRoleBasedUserReferenceDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="GenericHumanRole"/>-based <see cref="UsersReferenceDefinition"/>s.
+    /// Builds the configured <see cref="UsersReferenceDefinition"/>
     /// </summary>
-    public interface IRoleBasedUserReferenceDefinitionBuilder
-    {
-
-        /// <summary>
-        /// Builds the configured <see cref="UsersReferenceDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="UsersReferenceDefinition"/></returns>
-        UsersReferenceDefinition Build();
-
-    }
+    /// <returns>A new <see cref="UsersReferenceDefinition"/></returns>
+    UsersReferenceDefinition Build();
 
 }

@@ -12,32 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents a logical group of people which can be referenced in the task's scope.
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#logical-people-group-definitions"/></remarks>
+[DataContract]
+public record LogicalPeopleGroupDefinition
 {
+
     /// <summary>
-    /// Represents a logical group of people which can be referenced in the task's scope.
+    /// Gets/sets the name used to referenced the group in the task's scope. Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#logical-people-group-definitions"/></remarks>
-    [DataContract]
-    public class LogicalPeopleGroupDefinition
-    {
+    [Required, MinLength(1)]
+    [DataMember(Name = "name", IsRequired = true, Order = 1), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
+    public virtual string Name { get; set; } = null!;
 
-        /// <summary>
-        /// Gets/sets the name used to referenced the group in the task's scope. Must be lowercase and only contain alphanumeric characters, with the exceptions of the '-' character.
-        /// </summary>
-        [Required, MinLength(1)]
-        [DataMember(Name = "name", IsRequired = true, Order = 1)]
-        [JsonPropertyName("name")]
-        public virtual string Name { get; set; } = null!;
-
-        /// <summary>
-        /// Gets/sets an <see cref="List{T}"/> containing the defined group's members
-        /// </summary>
-        [Required, MinLength(1)]
-        [DataMember(Name = "members", IsRequired = true, Order = 2)]
-        [JsonPropertyName("members")]
-        public virtual List<PeopleReferenceDefinition> Members { get; set; } = new List<PeopleReferenceDefinition>();
-
-    }
+    /// <summary>
+    /// Gets/sets an <see cref="List{T}"/> containing the defined group's members
+    /// </summary>
+    [Required, MinLength(1)]
+    [DataMember(Name = "members", IsRequired = true, Order = 2), JsonPropertyOrder(2), JsonPropertyName("members"), YamlMember(Order = 2, Alias = "members")]
+    public virtual List<PeopleReferenceDefinition> Members { get; set; } = new List<PeopleReferenceDefinition>();
 
 }

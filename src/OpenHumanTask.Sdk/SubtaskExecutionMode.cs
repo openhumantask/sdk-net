@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Enumerates all support execution modes for subtasks
+/// </summary>
+[Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum SubtaskExecutionMode
 {
     /// <summary>
-    /// Enumerates all support execution modes for subtasks
+    /// Indicates that subtasks are executed in lexical order.
     /// </summary>
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum SubtaskExecutionMode
-    {
-        /// <summary>
-        /// Indicates that subtasks are executed in lexical order.
-        /// </summary>
-        [EnumMember(Value = "sequential")]
-        Sequential,
-        /// <summary>
-        /// Indicates that subtasks are executed in parallel.
-        /// </summary>
-        [EnumMember(Value = "parallel")]
-        Parallel
-    }
-
+    [EnumMember(Value = "sequential")]
+    Sequential,
+    /// <summary>
+    /// Indicates that subtasks are executed in parallel.
+    /// </summary>
+    [EnumMember(Value = "parallel")]
+    Parallel
 }

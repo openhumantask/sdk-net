@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build a <see cref="CompletionBehaviorDefinition"/>
+/// </summary>
+public interface ICompletionBehaviorDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build a <see cref="CompletionBehaviorDefinition"/>
+    /// Configures the type of the <see cref="CompletionBehaviorDefinition"/> to build
     /// </summary>
-    public interface ICompletionBehaviorDefinitionBuilder
-    {
-
-        /// <summary>
-        /// Configures the type of the <see cref="CompletionBehaviorDefinition"/> to build
-        /// </summary>
-        /// <param name="type">The type of the <see cref="CompletionBehaviorDefinition"/> to build</param>
-        /// <returns>A new <see cref="ITypedCompletionBehaviorDefinitionBuilder"/></returns>
-        ITypedCompletionBehaviorDefinitionBuilder OfType(CompletionBehaviorType type);
-
-    }
+    /// <param name="type">The type of the <see cref="CompletionBehaviorDefinition"/> to build</param>
+    /// <returns>A new <see cref="ITypedCompletionBehaviorDefinitionBuilder"/></returns>
+    ITypedCompletionBehaviorDefinitionBuilder OfType(CompletionBehaviorType type);
 
 }

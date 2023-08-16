@@ -12,67 +12,64 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="IDeadlineDefinitionBuilder"/> interface.
+/// </summary>
+public class DeadlineDefinitionBuilder
+    : IDeadlineDefinitionBuilder, ITypeDeadlineDefinitionBuilder
 {
 
     /// <summary>
-    /// Represents the default implementation of the <see cref="IDeadlineDefinitionBuilder"/> interface.
+    /// Gets the <see cref="DeadlineDefinition"/> to configure
     /// </summary>
-    public class DeadlineDefinitionBuilder
-        : IDeadlineDefinitionBuilder, ITypeDeadlineDefinitionBuilder
+    protected DeadlineDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual ITypeDeadlineDefinitionBuilder WithName(string name)
     {
-
-        /// <summary>
-        /// Gets the <see cref="DeadlineDefinition"/> to configure
-        /// </summary>
-        protected DeadlineDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual ITypeDeadlineDefinitionBuilder WithName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-            this.Definition.Name = name.Slugify("-").ToLowerInvariant();
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypeDeadlineDefinitionBuilder ElapsesAfter(TimeSpan duration)
-        {
-            this.Definition.ElapsesAt = null;
-            this.Definition.ElapsesAfter = duration;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypeDeadlineDefinitionBuilder ElapsesAt(DateTimeOffset dateTime)
-        {
-            if(dateTime < DateTimeOffset.UtcNow) throw new ArgumentOutOfRangeException(nameof(dateTime));
-            this.Definition.ElapsesAt = dateTime;
-            this.Definition.ElapsesAfter = null;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypeDeadlineDefinitionBuilder Escalates(Action<IEscalationDefinitionBuilder> setup)
-        {
-            if (setup == null) throw new ArgumentNullException(nameof(setup));
-            var builder = new EscalationDefinitionBuilder();
-            setup(builder);
-            if (this.Definition.Escalations == null) this.Definition.Escalations = new List<EscalationDefinition>();
-            this.Definition.Escalations.Add(builder.Build());
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypeDeadlineDefinitionBuilder OfType(HumanTaskDeadlineType type)
-        {
-            this.Definition.Type = type;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual DeadlineDefinition Build() => this.Definition;
-
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        this.Definition.Name = name.Slugify("-").ToLowerInvariant();
+        return this;
     }
+
+    /// <inheritdoc/>
+    public virtual ITypeDeadlineDefinitionBuilder ElapsesAfter(TimeSpan duration)
+    {
+        this.Definition.ElapsesAt = null;
+        this.Definition.ElapsesAfter = duration;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ITypeDeadlineDefinitionBuilder ElapsesAt(DateTimeOffset dateTime)
+    {
+        if(dateTime < DateTimeOffset.UtcNow) throw new ArgumentOutOfRangeException(nameof(dateTime));
+        this.Definition.ElapsesAt = dateTime;
+        this.Definition.ElapsesAfter = null;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ITypeDeadlineDefinitionBuilder Escalates(Action<IEscalationDefinitionBuilder> setup)
+    {
+        if (setup == null) throw new ArgumentNullException(nameof(setup));
+        var builder = new EscalationDefinitionBuilder();
+        setup(builder);
+        if (this.Definition.Escalations == null) this.Definition.Escalations = new List<EscalationDefinition>();
+        this.Definition.Escalations.Add(builder.Build());
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ITypeDeadlineDefinitionBuilder OfType(HumanTaskDeadlineType type)
+    {
+        this.Definition.Type = type;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual DeadlineDefinition Build() => this.Definition;
 
 }

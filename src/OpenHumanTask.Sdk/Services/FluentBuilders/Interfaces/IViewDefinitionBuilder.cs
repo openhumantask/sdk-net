@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="ViewDefinition"/>s
+/// </summary>
+public interface IViewDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="ViewDefinition"/>s
+    /// Configures the type of the <see cref="ViewDefinition"/> to build.
     /// </summary>
-    public interface IViewDefinitionBuilder
-    {
-
-        /// <summary>
-        /// Configures the type of the <see cref="ViewDefinition"/> to build.
-        /// </summary>
-        /// <param name="type">The type of the <see cref="ViewDefinition"/> to build.</param>
-        /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
-        ITypedViewDefinitionBuilder OfType(string type);
-     
-    }
-
+    /// <param name="type">The type of the <see cref="ViewDefinition"/> to build.</param>
+    /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
+    ITypedViewDefinitionBuilder OfType(string type);
+ 
 }

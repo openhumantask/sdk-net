@@ -14,45 +14,43 @@
 
 using Semver;
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Defines helpers to handle semantic versions
+/// </summary>
+public static class SemanticVersion
 {
+
     /// <summary>
-    /// Defines helpers to handle semantic versions
+    /// Parse the specified input into a new <see cref="SemVersion"/>.
     /// </summary>
-    public static class SemanticVersion
+    /// <param name="input">The input to parse.</param>
+    /// <returns>The parsed <see cref="SemVersion"/>.</returns>
+    public static SemVersion Parse(string input)
     {
+        if(string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException(nameof(input));
+        return SemVersion.Parse(input, SemVersionStyles.Strict);
+    }
 
-        /// <summary>
-        /// Parse the specified input into a new <see cref="SemVersion"/>.
-        /// </summary>
-        /// <param name="input">The input to parse.</param>
-        /// <returns>The parsed <see cref="SemVersion"/>.</returns>
-        public static SemVersion Parse(string input)
+    /// <summary>
+    /// Attempts to parse the specified input into a new <see cref="SemVersion"/>
+    /// </summary>
+    /// <param name="input">The input to parse.</param>
+    /// <param name="version">The parsed <see cref="SemVersion"/>, if any.</param>
+    /// <returns>A boolean indicating whether or not the specified input could be parsed.</returns>
+    public static bool TryParse(string input, out SemVersion? version)
+    {
+        version = default;
+        try
         {
-            if(string.IsNullOrWhiteSpace(input)) throw new ArgumentNullException(nameof(input));
-            return SemVersion.Parse(input, SemVersionStyles.Strict);
+            version = Parse(input);
+            return version == default;
         }
-
-        /// <summary>
-        /// Attempts to parse the specified input into a new <see cref="SemVersion"/>
-        /// </summary>
-        /// <param name="input">The input to parse.</param>
-        /// <param name="version">The parsed <see cref="SemVersion"/>, if any.</param>
-        /// <returns>A boolean indicating whether or not the specified input could be parsed.</returns>
-        public static bool TryParse(string input, out SemVersion? version)
+        catch
         {
-            version = default;
-            try
-            {
-                version = Parse(input);
-                return version == default;
-            }
-            catch
-            {
-                return false;
-            }
+            return false;
         }
-
     }
 
 }

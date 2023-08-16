@@ -12,49 +12,47 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="FormDefinition"/>s.
+/// </summary>
+public interface IFormDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="FormDefinition"/>s.
+    /// Configures the <see cref="FormDefinition"/> to build to use the specified data <see cref="JSchema"/> and initial state.
     /// </summary>
-    public interface IFormDefinitionBuilder
-    {
+    /// <param name="schema">The <see cref="JSchema"/> of the <see cref="FormDefinition"/>'s data.</param>
+    /// <param name="state">The initial state of the <see cref="HumanTaskDefinition"/>'s data. Used to filter and customize data based on supplied input.</param>
+    /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
+    IFormDefinitionBuilder WithData(JSchema schema, object? state);
 
-        /// <summary>
-        /// Configures the <see cref="FormDefinition"/> to build to use the specified data <see cref="JSchema"/> and initial state.
-        /// </summary>
-        /// <param name="schema">The <see cref="JSchema"/> of the <see cref="FormDefinition"/>'s data.</param>
-        /// <param name="state">The initial state of the <see cref="HumanTaskDefinition"/>'s data. Used to filter and customize data based on supplied input.</param>
-        /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
-        IFormDefinitionBuilder WithData(JSchema schema, object? state);
+    /// <summary>
+    /// Configures the <see cref="FormDefinition"/> to build to use the specified data <see cref="JSchema"/>.
+    /// </summary>
+    /// <param name="schema">The <see cref="JSchema"/> of the <see cref="FormDefinition"/>'s data.</param>
+    /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
+    IFormDefinitionBuilder WithData(JSchema schema);
 
-        /// <summary>
-        /// Configures the <see cref="FormDefinition"/> to build to use the specified data <see cref="JSchema"/>.
-        /// </summary>
-        /// <param name="schema">The <see cref="JSchema"/> of the <see cref="FormDefinition"/>'s data.</param>
-        /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
-        IFormDefinitionBuilder WithData(JSchema schema);
+    /// <summary>
+    /// Configures the <see cref="FormDefinition"/> to build to use the specified data initial state.
+    /// </summary>
+    /// <param name="state">The initial state of the <see cref="FormDefinition"/>'s data. Used to filter and customize data based on supplied input.</param>
+    /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
+    IFormDefinitionBuilder WithData(object? state);
 
-        /// <summary>
-        /// Configures the <see cref="FormDefinition"/> to build to use the specified data initial state.
-        /// </summary>
-        /// <param name="state">The initial state of the <see cref="FormDefinition"/>'s data. Used to filter and customize data based on supplied input.</param>
-        /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
-        IFormDefinitionBuilder WithData(object? state);
+    /// <summary>
+    /// Configures the <see cref="FormDefinition"/> to build to be displayed using the specified view.
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to build the <see cref="FormDefinition"/>'s <see cref="ViewDefinition"/>.</param>
+    /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
+    IFormDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup);
 
-        /// <summary>
-        /// Configures the <see cref="FormDefinition"/> to build to be displayed using the specified view.
-        /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to build the <see cref="FormDefinition"/>'s <see cref="ViewDefinition"/>.</param>
-        /// <returns>The configured <see cref="IFormDefinitionBuilder"/>.</returns>
-        IFormDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup);
-
-        /// <summary>
-        /// Builds the configured <see cref="FormDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="FormDefinition"/></returns>
-        FormDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="FormDefinition"/>
+    /// </summary>
+    /// <returns>A new <see cref="FormDefinition"/></returns>
+    FormDefinition Build();
 
 }

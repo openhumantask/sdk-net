@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="DeadlineDefinition"/>s
+/// </summary>
+public interface IDeadlineDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="DeadlineDefinition"/>s
+    /// Configures the type of the <see cref="DeadlineDefinition"/> to build
     /// </summary>
-    public interface IDeadlineDefinitionBuilder
-    {
-
-        /// <summary>
-        /// Configures the type of the <see cref="DeadlineDefinition"/> to build
-        /// </summary>
-        /// <param name="type">The type of the <see cref="DeadlineDefinition"/> to build</param>
-        /// <returns>A new <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
-        ITypeDeadlineDefinitionBuilder OfType(HumanTaskDeadlineType type);
-
-    }
+    /// <param name="type">The type of the <see cref="DeadlineDefinition"/> to build</param>
+    /// <returns>A new <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
+    ITypeDeadlineDefinitionBuilder OfType(HumanTaskDeadlineType type);
 
 }

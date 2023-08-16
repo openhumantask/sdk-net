@@ -12,65 +12,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents a reference to a <see cref="HumanTaskDefinition"/>.
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#task-definition-references"/></remarks>
+[DataContract]
+public record TaskDefinitionReference
 {
+
     /// <summary>
-    /// Represents a reference to a <see cref="HumanTaskDefinition"/>.
+    /// Gets/sets the name of the referenced <see cref="HumanTaskDefinition"/>.
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#task-definition-references"/></remarks>
-    [DataContract]
-    public class HumanTaskDefinitionReference
+    [Required, MinLength(3)]
+    [DataMember(Name = "name", IsRequired = true, Order = 1), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
+    public virtual string Name { get; set; } = null!;
+
+    /// <summary>
+    /// Gets/sets the namespace the referenced <see cref="HumanTaskDefinition"/> belongs to.
+    /// </summary>
+    [Required, MinLength(3)]
+    [DataMember(Name = "namespace", IsRequired = true, Order = 2), JsonPropertyOrder(2), JsonPropertyName("namespace"), YamlMember(Order = 2, Alias = "namespace")]
+    public virtual string Namespace { get; set; } = null!;
+
+    /// <summary>
+    /// Gets/sets the <see href="">semantic version</see> of the referenced <see cref="HumanTaskDefinition"/>.
+    /// </summary>
+    [DefaultValue("latest")]
+    [DataMember(Name = "version", Order = 3), JsonPropertyOrder(3), JsonPropertyName("version"), YamlMember(Order = 3, Alias = "version")]
+    public virtual string? Version { get; set; } = null!;
+
+    /// <summary>
+    /// Parses the specified input into a new <see cref="TaskDefinitionReference"/>
+    /// </summary>
+    /// <param name="input">The input to parse</param>
+    /// <returns>A new <see cref="TaskDefinitionReference"/>.</returns>
+    public static TaskDefinitionReference? Parse(string input)
     {
-
-        /// <summary>
-        /// Gets/sets the name of the referenced <see cref="HumanTaskDefinition"/>.
-        /// </summary>
-        [Required, MinLength(3)]
-        [DataMember(Name = "name", IsRequired = true, Order = 1)]
-        [JsonPropertyName("name")]
-        public virtual string Name { get; set; } = null!;
-
-        /// <summary>
-        /// Gets/sets the namespace the referenced <see cref="HumanTaskDefinition"/> belongs to.
-        /// </summary>
-        [Required, MinLength(3)]
-        [DataMember(Name = "namespace", IsRequired = true, Order = 2)]
-        [JsonPropertyName("namespace")]
-        public virtual string Namespace { get; set; } = null!;
-
-        /// <summary>
-        /// Gets/sets the <see href="">semantic version</see> of the referenced <see cref="HumanTaskDefinition"/>.
-        /// </summary>
-        [DefaultValue("latest")]
-        [DataMember(Name = "version", Order = 3)]
-        [JsonPropertyName("version")]
-        public virtual string? Version { get; set; } = null!;
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            var fullName = $"{this.Namespace}.{this.Name}";
-            if (!string.IsNullOrWhiteSpace(this.Version)) fullName += $":{this.Version}";
-            return fullName;
-        }
-
-        /// <summary>
-        /// Parses the specified input into a new <see cref="HumanTaskDefinitionReference"/>
-        /// </summary>
-        /// <param name="input">The input to parse</param>
-        /// <returns>A new <see cref="HumanTaskDefinitionReference"/>.</returns>
-        public static HumanTaskDefinitionReference? Parse(string input)
-        {
-            if (string.IsNullOrWhiteSpace(input)) return default;
-            var components = input.Split(':', StringSplitOptions.RemoveEmptyEntries);
-            var namespaceAndName = components[0];
-            var version = components.Length == 2 ? components[1] : null;
-            components = namespaceAndName.Split('.', StringSplitOptions.RemoveEmptyEntries);
-            if (components.Length < 2) throw new Exception($"The specified input '{input}' is not a valid task definition reference.");
-            var name = components.Last();
-            var @namespace = namespaceAndName[..^(name.Length + 1)];
-            return new() { Namespace = @namespace, Name = name, Version = version };
-        }
+        if (string.IsNullOrWhiteSpace(input)) return default;
+        var components = input.Split('.', StringSplitOptions.RemoveEmptyEntries);
+        if (components.Length < 2) throw new Exception($"The specified input '{input}' is not a valid task definition reference.");
+        var @namespace = components[0];
+        var name = components[1];
+        var version = components.Length == 3 ? components[2] : null;
+        return new() { Name = name, Namespace = @namespace, Version = version };
+    }
 
         /// <summary>
         /// Attempts to parse the specified input into a new <see cref="HumanTaskDefinitionReference"/>

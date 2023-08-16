@@ -12,35 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build typed <see cref="ViewDefinition"/>s
+/// </summary>
+public interface ITypedViewDefinitionBuilder
 {
 
     /// <summary>
-    /// Defines the fundamentals of a service used to build typed <see cref="ViewDefinition"/>s
+    /// Configures the type of the <see cref="ViewDefinition"/> to build.
     /// </summary>
-    public interface ITypedViewDefinitionBuilder
-    {
+    /// <param name="renderingMode">The <see cref="ViewRenderingMode"/> of the <see cref="ViewDefinition"/> to build.</param>
+    /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
+    ITypedViewDefinitionBuilder UseRenderingMode(ViewRenderingMode renderingMode);
 
-        /// <summary>
-        /// Configures the type of the <see cref="ViewDefinition"/> to build.
-        /// </summary>
-        /// <param name="renderingMode">The <see cref="ViewRenderingMode"/> of the <see cref="ViewDefinition"/> to build.</param>
-        /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
-        ITypedViewDefinitionBuilder UseRenderingMode(ViewRenderingMode renderingMode);
+    /// <summary>
+    /// Configures the template of the <see cref="ViewDefinition"/> to build.
+    /// </summary>
+    /// <param name="template">The template of the <see cref="ViewDefinition"/> to build. If a string, the raw template contents. If an object, the inline template. Can be a (or contain) runtime expression(s).</param>
+    /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
+    ITypedViewDefinitionBuilder WithTemplate(object template);
 
-        /// <summary>
-        /// Configures the template of the <see cref="ViewDefinition"/> to build.
-        /// </summary>
-        /// <param name="template">The template of the <see cref="ViewDefinition"/> to build. If a string, the raw template contents. If an object, the inline template. Can be a (or contain) runtime expression(s).</param>
-        /// <returns>The configured <see cref="IEscalationDefinitionBuilder"/>.</returns>
-        ITypedViewDefinitionBuilder WithTemplate(object template);
-
-        /// <summary>
-        /// Builds the configured <see cref="ViewDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="ViewDefinition"/></returns>
-        ViewDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="ViewDefinition"/>
+    /// </summary>
+    /// <returns>A new <see cref="ViewDefinition"/></returns>
+    ViewDefinition Build();
 
 }

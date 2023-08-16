@@ -16,37 +16,35 @@ using System.Reflection;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 
-namespace OpenHumanTask.Sdk.Serialization.Yaml
+namespace OpenHumanTask.Sdk.Serialization.Yaml;
+
+/// <summary>
+/// Represents an <see cref="IYamlTypeConverter"/> used to convert enumerations to/from strings.
+/// </summary>
+public class StringEnumConverter 
+    : IYamlTypeConverter
 {
-    /// <summary>
-    /// Represents an <see cref="IYamlTypeConverter"/> used to convert enumerations to/from strings.
-    /// </summary>
-    public class StringEnumConverter 
-        : IYamlTypeConverter
+
+    /// <inheritdoc/>
+    public bool Accepts(Type type) => type.IsEnum;
+
+    /// <inheritdoc/>
+    public object ReadYaml(IParser parser, Type type)
     {
-
-        /// <inheritdoc/>
-        public bool Accepts(Type type) => type.IsEnum;
-
-        /// <inheritdoc/>
-        public object ReadYaml(IParser parser, Type type)
-        {
-            var parsedEnum = parser.Consume<Scalar>();
-            var serializableValues = type.GetMembers()
-                .Select(m => new KeyValuePair<string, MemberInfo>(m.GetCustomAttributes<EnumMemberAttribute>(true).Select(ema => ema.Value).FirstOrDefault()!, m))
-                .Where(pa => !string.IsNullOrWhiteSpace(pa.Key)).ToDictionary(pa => pa.Key, pa => pa.Value);
-            if (!serializableValues.ContainsKey(parsedEnum.Value))
-                throw new YamlException(parsedEnum.Start, parsedEnum.End, $"Value '{parsedEnum.Value}' not found in enum '{type.Name}'");
-            return Enum.Parse(type, serializableValues[parsedEnum.Value].Name);
-        }
-
-        /// <inheritdoc/>
-        public void WriteYaml(IEmitter emitter, object? value, Type type)
-        {
-            var enumMember = type.GetMember(value?.ToString()!).FirstOrDefault();
-            var yamlValue = enumMember?.GetCustomAttributes<EnumMemberAttribute>(true).Select(ema => ema.Value).FirstOrDefault() ?? value.ToString();
-            emitter.Emit(new Scalar(yamlValue!));
-        }
+        var parsedEnum = parser.Consume<Scalar>();
+        var serializableValues = type.GetMembers()
+            .Select(m => new KeyValuePair<string, MemberInfo>(m.GetCustomAttributes<EnumMemberAttribute>(true).Select(ema => ema.Value).FirstOrDefault()!, m))
+            .Where(pa => !string.IsNullOrWhiteSpace(pa.Key)).ToDictionary(pa => pa.Key, pa => pa.Value);
+        if (!serializableValues.ContainsKey(parsedEnum.Value))
+            throw new YamlException(parsedEnum.Start, parsedEnum.End, $"Value '{parsedEnum.Value}' not found in enum '{type.Name}'");
+        return Enum.Parse(type, serializableValues[parsedEnum.Value].Name);
     }
 
+    /// <inheritdoc/>
+    public void WriteYaml(IEmitter emitter, object? value, Type type)
+    {
+        var enumMember = type.GetMember(value?.ToString()!).FirstOrDefault();
+        var yamlValue = enumMember?.GetCustomAttributes<EnumMemberAttribute>(true).Select(ema => ema.Value).FirstOrDefault() ?? value?.ToString();
+        emitter.Emit(new Scalar(yamlValue!));
+    }
 }
