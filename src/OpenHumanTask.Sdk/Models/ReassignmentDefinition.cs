@@ -12,24 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents an object used to define and configure a task's reassignment.
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#reassignment-definitions"/></remarks>
+[DataContract]
+public record ReassignmentDefinition
 {
 
     /// <summary>
-    /// Represents an object used to define and configure a task's reassignment.
+    /// Gets/sets the <see cref="PeopleReferenceDefinition"/> used to configure the people to reassign the task to. If not set, releases the task to be claimed by one of its potential owners.
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#reassignment-definitions"/></remarks>
-    [DataContract]
-    public class ReassignmentDefinition
-    {
-
-        /// <summary>
-        /// Gets/sets the <see cref="PeopleReferenceDefinition"/> used to configure the people to reassign the task to. If not set, releases the task to be claimed by one of its potential owners.
-        /// </summary>
-        [DataMember(Name = "to", Order = 1)]
-        [JsonPropertyName("to")]
-        public virtual PeopleReferenceDefinition? To { get; set; }
-
-    }
+    [DataMember(Name = "to", Order = 1), JsonPropertyOrder(1), JsonPropertyName("to"), YamlMember(Order = 1, Alias = "to")]
+    public virtual PeopleReferenceDefinition? To { get; set; }
 
 }

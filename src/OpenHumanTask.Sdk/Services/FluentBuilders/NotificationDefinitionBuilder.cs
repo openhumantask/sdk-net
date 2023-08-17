@@ -12,41 +12,39 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="INotificationDefinitionBuilder"/> interface.
+/// </summary>
+public class NotificationDefinitionBuilder
+    : INotificationDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="INotificationDefinitionBuilder"/> interface.
+    /// Gets the <see cref="NotificationDefinition"/> to configure.
     /// </summary>
-    public class NotificationDefinitionBuilder
-        : INotificationDefinitionBuilder
+    protected NotificationDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual INotificationDefinitionBuilder WithName(string name)
     {
-
-        /// <summary>
-        /// Gets the <see cref="NotificationDefinition"/> to configure.
-        /// </summary>
-        protected NotificationDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual INotificationDefinitionBuilder WithName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-            this.Definition.Name = name.Slugify("-").ToLowerInvariant();
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual INotificationDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup)
-        {
-            if (setup == null) throw new ArgumentNullException(nameof(setup));
-            var builder = new ViewDefinitionBuilder();
-            setup(builder);
-
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual NotificationDefinition Build() => this.Definition;
-
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        this.Definition.Name = name.Slugify("-").ToLowerInvariant();
+        return this;
     }
+
+    /// <inheritdoc/>
+    public virtual INotificationDefinitionBuilder DisplayUsing(Action<IViewDefinitionBuilder> setup)
+    {
+        if (setup == null) throw new ArgumentNullException(nameof(setup));
+        var builder = new ViewDefinitionBuilder();
+        setup(builder);
+
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual NotificationDefinition Build() => this.Definition;
 
 }

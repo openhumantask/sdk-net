@@ -12,61 +12,58 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="IOutcomeDefinitionBuilder"/> interface
+/// </summary>
+public class OutcomeDefinitionBuilder
+    : IOutcomeDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="IOutcomeDefinitionBuilder"/> interface
+    /// Gets the <see cref="OutcomeDefinition"/> to configure.
     /// </summary>
-    public class OutcomeDefinitionBuilder
-        : IOutcomeDefinitionBuilder
+    protected OutcomeDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual IOutcomeDefinitionBuilder WithName(string name)
     {
-
-        /// <summary>
-        /// Gets the <see cref="OutcomeDefinition"/> to configure.
-        /// </summary>
-        protected OutcomeDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual IOutcomeDefinitionBuilder WithName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-            this.Definition.Name = name.Slugify("-").ToLowerInvariant();
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IOutcomeDefinitionBuilder Outputs(string language, string? value)
-        {
-            if (string.IsNullOrWhiteSpace(language)) throw new ArgumentNullException(nameof(language));
-            if (!language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
-            IDictionary<string, string?> values;
-            if (this.Definition.Value == null) values = new Dictionary<string, string?>();
-            else if (this.Definition.Value is string) values = new Dictionary<string, string?>();
-            else values = this.Definition.Value.ToDictionary<string?>();
-            values[language] = value;
-            this.Definition.Value = values;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IOutcomeDefinitionBuilder Outputs(string? value)
-        {
-            this.Definition.Value = value;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IOutcomeDefinitionBuilder When(string? condition)
-        {
-            if (!string.IsNullOrWhiteSpace(condition) && !condition.IsRuntimeExpression()) 
-                throw new ArgumentException(nameof(condition), new FormatException($"The specified value '{condition}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
-            this.Definition.Condition = condition;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual OutcomeDefinition Build() => this.Definition;
-
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        this.Definition.Name = name.Slugify("-").ToLowerInvariant();
+        return this;
     }
+
+    /// <inheritdoc/>
+    public virtual IOutcomeDefinitionBuilder Outputs(string language, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(language)) throw new ArgumentNullException(nameof(language));
+        if (!language.IsValidLanguageCode()) throw new ArgumentException($"The specified value '{language}' is not a valid two-letter ISO 639-1 language code.", nameof(language));
+        IDictionary<string, string?> values;
+        if (this.Definition.Value == null) values = new Dictionary<string, string?>();
+        else if (this.Definition.Value is string) values = new Dictionary<string, string?>();
+        else values = this.Definition.Value.ToDictionary<string?>();
+        values[language] = value;
+        this.Definition.Value = values;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IOutcomeDefinitionBuilder Outputs(string? value)
+    {
+        this.Definition.Value = value;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IOutcomeDefinitionBuilder When(string? condition)
+    {
+        if (!string.IsNullOrWhiteSpace(condition) && !condition.IsRuntimeExpression())  throw new ArgumentException($"Invalid argument '{nameof(condition)}'. View inner exception for further details.", new FormatException($"The specified value '{condition}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format"));
+        this.Definition.Condition = condition;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual OutcomeDefinition Build() => this.Definition;
 
 }

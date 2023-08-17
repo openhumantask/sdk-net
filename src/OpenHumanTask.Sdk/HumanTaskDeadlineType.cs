@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Enumerates all supported types of deadlines
+/// </summary>
+[Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum HumanTaskDeadlineType
 {
     /// <summary>
-    /// Enumerates all supported types of deadlines
+    /// Indicates a start deadline
     /// </summary>
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum HumanTaskDeadlineType
-    {
-        /// <summary>
-        /// Indicates a start deadline
-        /// </summary>
-        [EnumMember(Value = "start")]
-        Start,
-        /// <summary>
-        /// Indicates a completion deadline
-        /// </summary>
-        [EnumMember(Value = "completion")]
-        Completion
-    }
-
+    [EnumMember(Value = "start")]
+    Start,
+    /// <summary>
+    /// Indicates a completion deadline
+    /// </summary>
+    [EnumMember(Value = "completion")]
+    Completion
 }

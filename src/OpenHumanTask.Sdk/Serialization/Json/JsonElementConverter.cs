@@ -17,29 +17,27 @@
 
 using OpenHumanTask.Sdk;
 
-namespace System.Text.Json.Serialization.Converters
+namespace System.Text.Json.Serialization.Converters;
+
+/// <summary>
+/// Represents the <see cref="JsonConverter"/> used to unwrap deserialized <see cref="JsonElement"/>s.
+/// </summary>
+public class JsonElementConverter
+    : JsonConverter<object>
 {
-    /// <summary>
-    /// Represents the <see cref="JsonConverter"/> used to unwrap deserialized <see cref="JsonElement"/>s.
-    /// </summary>
-    public class JsonElementConverter
-        : JsonConverter<object>
+
+    /// <inheritdoc/>
+    public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
+        var jsonElement = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
+        return jsonElement.ToObject();
+    }
 
-        /// <inheritdoc/>
-        public override object? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            var jsonElement = JsonSerializer.Deserialize<JsonElement>(ref reader, options);
-            return jsonElement.ToObject();
-        }
-
-        /// <inheritdoc/>
-        public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
-        {
-            var json = JsonSerializer.Serialize(value, options);
-            writer.WriteRawValue(json);
-        }
-
+    /// <inheritdoc/>
+    public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
+    {
+        var json = JsonSerializer.Serialize(value, options);
+        writer.WriteRawValue(json);
     }
 
 }

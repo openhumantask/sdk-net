@@ -12,46 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="IViewDefinitionBuilder"/> interface.
+/// </summary>
+public class ViewDefinitionBuilder
+    : IViewDefinitionBuilder, ITypedViewDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="IViewDefinitionBuilder"/> interface.
+    /// Gets the <see cref="ViewDefinition"/> to configure.
     /// </summary>
-    public class ViewDefinitionBuilder
-        : IViewDefinitionBuilder, ITypedViewDefinitionBuilder
+    protected ViewDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual ITypedViewDefinitionBuilder OfType(string type)
     {
-
-        /// <summary>
-        /// Gets the <see cref="ViewDefinition"/> to configure.
-        /// </summary>
-        protected ViewDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual ITypedViewDefinitionBuilder OfType(string type)
-        {
-            if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
-            this.Definition.Type = type;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypedViewDefinitionBuilder UseRenderingMode(ViewRenderingMode renderingMode)
-        {
-            this.Definition.RenderingMode = renderingMode;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypedViewDefinitionBuilder WithTemplate(object template)
-        {
-            if(template == null) throw new ArgumentNullException(nameof(template));
-            this.Definition.Template = template;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ViewDefinition Build() => this.Definition;
-
+        if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
+        this.Definition.Type = type;
+        return this;
     }
+
+    /// <inheritdoc/>
+    public virtual ITypedViewDefinitionBuilder UseRenderingMode(ViewRenderingMode renderingMode)
+    {
+        this.Definition.RenderingMode = renderingMode;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ITypedViewDefinitionBuilder WithTemplate(object template)
+    {
+        this.Definition.Template = template ?? throw new ArgumentNullException(nameof(template));
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ViewDefinition Build() => this.Definition;
 
 }

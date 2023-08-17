@@ -16,31 +16,28 @@
  */
 using System.Xml;
 
-namespace Newtonsoft.Json.Converters
+namespace Newtonsoft.Json.Converters;
+
+/// <summary>
+/// Represents the <see cref="JsonConverter"/> used to convert from and to ISO 8601 timespan expressions
+/// </summary>
+public class Iso8601TimeSpanConverter
+    : JsonConverter<TimeSpan>
 {
 
-    /// <summary>
-    /// Represents the <see cref="JsonConverter"/> used to convert from and to ISO 8601 timespan expressions
-    /// </summary>
-    public class Iso8601TimeSpanConverter
-        : JsonConverter<TimeSpan>
+    /// <inheritdoc/>
+    public override TimeSpan ReadJson(JsonReader reader, Type objectType, TimeSpan existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
+        var expression = reader.Value?.ToString();
+        if (string.IsNullOrWhiteSpace(expression))
+            return default;
+        return Iso8601TimeSpan.Parse(expression);
+    }
 
-        /// <inheritdoc/>
-        public override TimeSpan ReadJson(JsonReader reader, Type objectType, TimeSpan existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            var expression = reader.Value?.ToString();
-            if (string.IsNullOrWhiteSpace(expression))
-                return default;
-            return Iso8601TimeSpan.Parse(expression);
-        }
-
-        /// <inheritdoc/>
-        public override void WriteJson(JsonWriter writer, TimeSpan value, JsonSerializer serializer)
-        {
-            writer.WriteValue(XmlConvert.ToString(value));
-        }
-
+    /// <inheritdoc/>
+    public override void WriteJson(JsonWriter writer, TimeSpan value, JsonSerializer serializer)
+    {
+        writer.WriteValue(XmlConvert.ToString(value));
     }
 
 }

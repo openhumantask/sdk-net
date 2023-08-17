@@ -12,25 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Enumerates all support types of completion behaviors
+/// </summary>
+[Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum CompletionBehaviorType
 {
     /// <summary>
-    /// Enumerates all support types of completion behaviors
+    /// Indicates that the task completes a soon as the condition matches.
     /// </summary>
-    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum CompletionBehaviorType
-    {
-        /// <summary>
-        /// Indicates that the task completes a soon as the condition matches.
-        /// </summary>
-        [EnumMember(Value = "automatic")]
-        Automatic,
-        /// <summary>
-        /// Indicates that the task must be explicitly completed by the actual owner whern the condition matches.
-        /// </summary>
-        [EnumMember(Value = "manual")]
-        Manual
-    }
-
+    [EnumMember(Value = "automatic")]
+    Automatic,
+    /// <summary>
+    /// Indicates that the task must be explicitly completed by the actual owner whern the condition matches.
+    /// </summary>
+    [EnumMember(Value = "manual")]
+    Manual
 }

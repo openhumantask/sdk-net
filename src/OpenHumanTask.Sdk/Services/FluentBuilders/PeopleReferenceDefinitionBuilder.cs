@@ -12,68 +12,66 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="IPeopleReferenceDefinitionBuilder"/> interface
+/// </summary>
+public class PeopleReferenceDefinitionBuilder
+    : IPeopleReferenceDefinitionBuilder, IUsersReferenceDefinitionBuilder, IClaimBasedUserReferenceDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="IPeopleReferenceDefinitionBuilder"/> interface
+    /// Gets the <see cref="PeopleReferenceDefinition"/> to configure
     /// </summary>
-    public class PeopleReferenceDefinitionBuilder
-        : IPeopleReferenceDefinitionBuilder, IUsersReferenceDefinitionBuilder, IClaimBasedUserReferenceDefinitionBuilder
+    protected PeopleReferenceDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual void User(string userIdentifier)
     {
-
-        /// <summary>
-        /// Gets the <see cref="PeopleReferenceDefinition"/> to configure
-        /// </summary>
-        protected PeopleReferenceDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual void User(string userIdentifier)
-        {
-            if (string.IsNullOrWhiteSpace(userIdentifier)) throw new ArgumentNullException(nameof(userIdentifier));
-            this.Definition.User = userIdentifier;
-        }
-
-        /// <inheritdoc/>
-        public virtual IUsersReferenceDefinitionBuilder Users() => this;
-
-        /// <inheritdoc/>
-        public virtual IClaimBasedUserReferenceDefinitionBuilder WithClaim(string type, string? value = null)
-        {
-            if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
-            if (this.Definition.Users == null) this.Definition.Users = new();
-            if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new List<ClaimFilterDefinition>();
-            this.Definition.Users.WithClaims.Add(new() { Type = type, Value = value });
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual IClaimBasedUserReferenceDefinitionBuilder WithClaimValue(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-            if (this.Definition.Users == null) this.Definition.Users = new();
-            if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new List<ClaimFilterDefinition>();
-            this.Definition.Users.WithClaims.Add(new() { Value = value });
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual void InGroup(string group)
-        {
-            if (string.IsNullOrWhiteSpace(group)) throw new ArgumentNullException(nameof(group));
-            if (this.Definition.Users == null) this.Definition.Users = new();
-            this.Definition.Users.InGroup = group;
-        }
-
-        /// <inheritdoc/>
-        public virtual void InRole(GenericHumanRole role)
-        {
-            if (this.Definition.Users == null) this.Definition.Users = new();
-            this.Definition.Users.InGenericRole = role;
-        }
-
-        /// <inheritdoc/>
-        public virtual PeopleReferenceDefinition Build() => this.Definition;
-
+        if (string.IsNullOrWhiteSpace(userIdentifier)) throw new ArgumentNullException(nameof(userIdentifier));
+        this.Definition.User = userIdentifier;
     }
+
+    /// <inheritdoc/>
+    public virtual IUsersReferenceDefinitionBuilder Users() => this;
+
+    /// <inheritdoc/>
+    public virtual IClaimBasedUserReferenceDefinitionBuilder WithClaim(string type, string? value = null)
+    {
+        if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
+        if (this.Definition.Users == null) this.Definition.Users = new();
+        if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new();
+        this.Definition.Users.WithClaims.Add(new() { Type = type, Value = value });
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual IClaimBasedUserReferenceDefinitionBuilder WithClaimValue(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+        if (this.Definition.Users == null) this.Definition.Users = new();
+        if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new();
+        this.Definition.Users.WithClaims.Add(new() { Value = value });
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual void InGroup(string group)
+    {
+        if (string.IsNullOrWhiteSpace(group)) throw new ArgumentNullException(nameof(group));
+        if (this.Definition.Users == null) this.Definition.Users = new();
+        this.Definition.Users.InGroup = group;
+    }
+
+    /// <inheritdoc/>
+    public virtual void InRole(GenericHumanRole role)
+    {
+        if (this.Definition.Users == null) this.Definition.Users = new();
+        this.Definition.Users.InGenericRole = role;
+    }
+
+    /// <inheritdoc/>
+    public virtual PeopleReferenceDefinition Build() => this.Definition;
 
 }

@@ -14,31 +14,27 @@
 
 using System.Text.Json.Serialization.Converters;
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents an object used to declare, configure and validate a data model
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#data-model-definitions"/></remarks>
+[DataContract]
+public record DataModelDefinition
 {
 
     /// <summary>
-    /// Represents an object used to declare, configure and validate a data model
+    /// Gets/sets the definedd model's <see cref="JSchema"/>, if any
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#data-model-definitions"/></remarks>
-    [DataContract]
-    public class DataModelDefinition
-    {
+    [DataMember(Name = "schema", Order = 1), JsonPropertyOrder(1), JsonPropertyName("schema"), YamlMember(Order = 1, Alias = "schema")]
+    public virtual JSchema? Schema { get; set; }
 
-        /// <summary>
-        /// Gets/sets the definedd model's <see cref="JSchema"/>, if any
-        /// </summary>
-        [DataMember(Name = "schema", Order = 1)]
-        [JsonPropertyName("schema")]
-        public virtual JSchema? Schema { get; set; }
-
-        /// <summary>
-        /// Gets/sets an object that defines the defined model's initial stater
-        /// </summary>
-        [DataMember(Name = "state", Order = 2)]
-        [JsonPropertyName("state"), JsonConverter(typeof(JsonElementConverter))]
-        public virtual object? State { get; set; }
-
-    }
+    /// <summary>
+    /// Gets/sets an object that defines the defined model's initial stater
+    /// </summary>
+    [JsonConverter(typeof(JsonElementConverter))]
+    [DataMember(Name = "state", Order = 2), JsonPropertyOrder(2), JsonPropertyName("state"), YamlMember(Order = 2, Alias = "state")]
+    public virtual object? State { get; set; }
 
 }

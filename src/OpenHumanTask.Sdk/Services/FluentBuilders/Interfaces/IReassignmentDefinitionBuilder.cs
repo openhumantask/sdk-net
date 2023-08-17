@@ -12,26 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build <see cref="ReassignmentDefinition"/>s.
+/// </summary>
+public interface IReassignmentDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build <see cref="ReassignmentDefinition"/>s.
+    /// Configures the people to reassign the <see cref="ReassignmentDefinition"/> to build to.
     /// </summary>
-    public interface IReassignmentDefinitionBuilder
-    {
+    /// <param name="setup">An <see cref="Action{T}"/> used to configure the people to reassign the task to.</param>
+    void To(Action<IPeopleReferenceDefinitionBuilder> setup);
 
-        /// <summary>
-        /// Configures the people to reassign the <see cref="ReassignmentDefinition"/> to build to.
-        /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to configure the people to reassign the task to.</param>
-        void To(Action<IPeopleReferenceDefinitionBuilder> setup);
-
-        /// <summary>
-        /// Builds the configured <see cref="ReassignmentDefinition"/>
-        /// </summary>
-        /// <returns>A new <see cref="ReassignmentDefinition"/></returns>
-        ReassignmentDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="ReassignmentDefinition"/>
+    /// </summary>
+    /// <returns>A new <see cref="ReassignmentDefinition"/></returns>
+    ReassignmentDefinition Build();
 
 }

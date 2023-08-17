@@ -14,30 +14,26 @@
 
 using System.Security.Claims;
 
-namespace OpenHumanTask.Sdk.Models
+namespace OpenHumanTask.Sdk.Models;
+
+/// <summary>
+/// Represents a <see cref="Claim"/>-based filter
+/// </summary>
+/// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#claim-filter-definitions"/></remarks>
+[DataContract]
+public record ClaimFilterDefinition
 {
+
     /// <summary>
-    /// Represents a <see cref="Claim"/>-based filter
+    /// Gets/sets the type of the <see cref="Claim"/> matching users must own. If used in conjunction with the '<see cref="Value"/>' property, filters users that have a <see cref="Claim"/> of the specified type, with the specified value.
     /// </summary>
-    /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#claim-filter-definitions"/></remarks>
-    [DataContract]
-    public class ClaimFilterDefinition
-    {
+    [DataMember(Name = "type", Order = 1), JsonPropertyOrder(1), JsonPropertyName("type"), YamlMember(Order = 1, Alias = "type")]
+    public virtual string? Type { get; set; }
 
-        /// <summary>
-        /// Gets/sets the type of the <see cref="Claim"/> matching users must own. If used in conjunction with the '<see cref="Value"/>' property, filters users that have a <see cref="Claim"/> of the specified type, with the specified value.
-        /// </summary>
-        [DataMember(Name = "type", Order = 1)]
-        [JsonPropertyName("type")]
-        public virtual string? Type { get; set; }
-
-        /// <summary>
-        /// Gets/sets a claim value matching users must own. If the '<see cref="Type"/>' property has not been set, filters users that have a <see cref="Claim"/> of any type containing the specified value.
-        /// </summary>
-        [DataMember(Name = "value", Order = 2)]
-        [JsonPropertyName("value")]
-        public virtual string? Value { get; set; }
-
-    }
+    /// <summary>
+    /// Gets/sets a claim value matching users must own. If the '<see cref="Type"/>' property has not been set, filters users that have a <see cref="Claim"/> of any type containing the specified value.
+    /// </summary>
+    [DataMember(Name = "value", Order = 2), JsonPropertyOrder(2), JsonPropertyName("value"), YamlMember(Order = 2, Alias = "value")]
+    public virtual string? Value { get; set; }
 
 }

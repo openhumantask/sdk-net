@@ -14,26 +14,24 @@
 
 using OpenHumanTask.Sdk.Services.FluentBuilders;
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Defines extensions for <see cref="IEscalationDefinitionBuilder"/>s
+/// </summary>
+public static class IEscalationDefinitionBuilderExtensions
 {
+
     /// <summary>
-    /// Defines extensions for <see cref="IEscalationDefinitionBuilder"/>s
+    /// Configures the <see cref="EscalationDefinition"/> to build to start a subtask when applying.
     /// </summary>
-    public static class IEscalationDefinitionBuilderExtensions
+    /// <param name="builder">The <see cref="IEscalationDefinitionBuilder"/> to configure.</param>
+    /// <param name="name">The name of the <see cref="SubtaskDefinition"/> to create.</param>
+    /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="SubtaskDefinition"/> to create.</param>
+    public static void StartSubtask(this IEscalationDefinitionBuilder builder, string name, Action<ISubtaskDefinitionBuilder> setup)
     {
-
-        /// <summary>
-        /// Configures the <see cref="EscalationDefinition"/> to build to start a subtask when applying.
-        /// </summary>
-        /// <param name="builder">The <see cref="IEscalationDefinitionBuilder"/> to configure.</param>
-        /// <param name="name">The name of the <see cref="SubtaskDefinition"/> to create.</param>
-        /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="SubtaskDefinition"/> to create.</param>
-        public static void StartSubtask(this IEscalationDefinitionBuilder builder, string name, Action<ISubtaskDefinitionBuilder> setup)
-        {
-            if (setup == null) throw new ArgumentNullException(nameof(setup));
-            builder.StartSubtask(subtask => setup(subtask.WithName(name)));
-        }
-
+        if (setup == null) throw new ArgumentNullException(nameof(setup));
+        builder.StartSubtask(subtask => setup(subtask.WithName(name)));
     }
 
 }

@@ -12,48 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Defines the fundamentals of a service used to build typed <see cref="DeadlineDefinition"/>s.
+/// </summary>
+public interface ITypeDeadlineDefinitionBuilder
 {
+
     /// <summary>
-    /// Defines the fundamentals of a service used to build typed <see cref="DeadlineDefinition"/>s.
+    /// Configures the name of the <see cref="DeadlineDefinition"/> to build.
     /// </summary>
-    public interface ITypeDeadlineDefinitionBuilder
-    {
+    /// <param name="name">The name of the <see cref="DeadlineDefinition"/> to build.</param>
+    /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
+    ITypeDeadlineDefinitionBuilder WithName(string name);
 
-        /// <summary>
-        /// Configures the name of the <see cref="DeadlineDefinition"/> to build.
-        /// </summary>
-        /// <param name="name">The name of the <see cref="DeadlineDefinition"/> to build.</param>
-        /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
-        ITypeDeadlineDefinitionBuilder WithName(string name);
+    /// <summary>
+    /// Configures the <see cref="DeadlineDefinition"/> to build to elapse at the specified date and time.
+    /// </summary>
+    /// <param name="dateTime">The date and time at which the <see cref="DeadlineDefinition"/> to build elapses.</param>
+    /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
+    ITypeDeadlineDefinitionBuilder ElapsesAt(DateTimeOffset dateTime);
 
-        /// <summary>
-        /// Configures the <see cref="DeadlineDefinition"/> to build to elapse at the specified date and time.
-        /// </summary>
-        /// <param name="dateTime">The date and time at which the <see cref="DeadlineDefinition"/> to build elapses.</param>
-        /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
-        ITypeDeadlineDefinitionBuilder ElapsesAt(DateTimeOffset dateTime);
+    /// <summary>
+    /// Configures the <see cref="DeadlineDefinition"/> to build to elapse after the specified duration.
+    /// </summary>
+    /// <param name="duration">The duration after which the <see cref="DeadlineDefinition"/> to build elapses.</param>
+    /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
+    ITypeDeadlineDefinitionBuilder ElapsesAfter(TimeSpan duration);
 
-        /// <summary>
-        /// Configures the <see cref="DeadlineDefinition"/> to build to elapse after the specified duration.
-        /// </summary>
-        /// <param name="duration">The duration after which the <see cref="DeadlineDefinition"/> to build elapses.</param>
-        /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
-        ITypeDeadlineDefinitionBuilder ElapsesAfter(TimeSpan duration);
+    /// <summary>
+    /// Adds and configures a new <see cref="EscalationDefinition"/> to the <see cref="DeadlineDefinition"/> to build.
+    /// </summary>
+    /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="EscalationDefinition"/> to use.</param>
+    /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
+    ITypeDeadlineDefinitionBuilder Escalates(Action<IEscalationDefinitionBuilder> setup);
 
-        /// <summary>
-        /// Adds and configures a new <see cref="EscalationDefinition"/> to the <see cref="DeadlineDefinition"/> to build.
-        /// </summary>
-        /// <param name="setup">An <see cref="Action{T}"/> used to configure the <see cref="EscalationDefinition"/> to use.</param>
-        /// <returns>The configured <see cref="ITypeDeadlineDefinitionBuilder"/></returns>
-        ITypeDeadlineDefinitionBuilder Escalates(Action<IEscalationDefinitionBuilder> setup);
-
-        /// <summary>
-        /// Builds the configured <see cref="DeadlineDefinition"/>.
-        /// </summary>
-        /// <returns>A new <see cref="DeadlineDefinition"/>.</returns>
-        DeadlineDefinition Build();
-
-    }
+    /// <summary>
+    /// Builds the configured <see cref="DeadlineDefinition"/>.
+    /// </summary>
+    /// <returns>A new <see cref="DeadlineDefinition"/>.</returns>
+    DeadlineDefinition Build();
 
 }

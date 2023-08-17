@@ -15,36 +15,35 @@
 using System.Dynamic;
 using System.Text.Json;
 
-namespace OpenHumanTask.Sdk
+namespace OpenHumanTask.Sdk;
+
+/// <summary>
+/// Defines extensions for <see cref="JsonElement"/>s
+/// </summary>
+public static class JsonElementExtensions
 {
 
     /// <summary>
-    /// Defines extensions for <see cref="JsonElement"/>s
+    /// Deserializes the <see cref="JsonElement"/> into a new object.
     /// </summary>
-    public static class JsonElementExtensions
+    /// <param name="element">The <see cref="JsonElement"/> to deserialize.</param>
+    /// <returns>The deserialized <see cref="JsonElement"/>.</returns>
+    public static object? ToObject(this JsonElement element)
     {
-
-        /// <summary>
-        /// Deserializes the <see cref="JsonElement"/> into a new object.
-        /// </summary>
-        /// <param name="element">The <see cref="JsonElement"/> to deserialize.</param>
-        /// <returns>The deserialized <see cref="JsonElement"/>.</returns>
-        public static object? ToObject(this JsonElement element)
+        var t = element.GetType();
+        return element.ValueKind switch
         {
-            var t = element.GetType();
-            return element.ValueKind switch
-            {
-                JsonValueKind.Undefined => null,
-                JsonValueKind.Object => element.UnwrapObject(),
-                JsonValueKind.Array => element.UnwrapArray(),
-                JsonValueKind.String => element.GetString(),
-                JsonValueKind.Number => element.GetInt64(),
-                JsonValueKind.True => true,
-                JsonValueKind.False => false,
-                JsonValueKind.Null => null,
-                _ => throw new NotSupportedException($"The specified {nameof(JsonValueKind)} '{element.ValueKind}' is not supported.")
-            };
-        }
+            JsonValueKind.Undefined => null,
+            JsonValueKind.Object => element.UnwrapObject(),
+            JsonValueKind.Array => element.UnwrapArray(),
+            JsonValueKind.String => element.GetString(),
+            JsonValueKind.Number => element.GetInt64(),
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Null => null,
+            _ => throw new NotSupportedException($"The specified {nameof(JsonValueKind)} '{element.ValueKind}' is not supported.")
+        };
+    }
 
         private static object? UnwrapObject(this JsonElement element)
         {
@@ -57,17 +56,15 @@ namespace OpenHumanTask.Sdk
             return unwrapped;
         }
 
-        private static object? UnwrapArray(this JsonElement element)
+    private static object? UnwrapArray(this JsonElement element)
+    {
+        var deserialized = System.Text.Json.JsonSerializer.Deserialize<List<JsonElement>>(element)!;
+        var unwrapped = new List<object>(deserialized.Count);
+        foreach (var jsonElement in deserialized)
         {
-            var deserialized = System.Text.Json.JsonSerializer.Deserialize<List<JsonElement>>(element)!;
-            var unwrapped = new List<object>(deserialized.Count);
-            foreach (var jsonElement in deserialized)
-            {
-                unwrapped.Add(jsonElement.ToObject()!);
-            }
-            return unwrapped;
+            unwrapped.Add(jsonElement.ToObject()!);
         }
-
+        return unwrapped;
     }
 
 }

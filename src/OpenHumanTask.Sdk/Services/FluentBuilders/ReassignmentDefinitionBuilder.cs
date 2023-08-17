@@ -12,35 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="IReassignmentDefinitionBuilder"/> interface.
+/// </summary>
+public class ReassignmentDefinitionBuilder
+    : IReassignmentDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="IReassignmentDefinitionBuilder"/> interface.
+    /// Gets the <see cref="ReassignmentDefinition"/> to configure.
     /// </summary>
-    public class ReassignmentDefinitionBuilder
-        : IReassignmentDefinitionBuilder
+    protected ReassignmentDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual void To(Action<IPeopleReferenceDefinitionBuilder> setup)
     {
+        if (setup == null) throw new ArgumentNullException(nameof(setup));
+        var builder = new PeopleReferenceDefinitionBuilder();
+        setup(builder);
+        this.Definition.To = builder.Build();
+    }
 
-        /// <summary>
-        /// Gets the <see cref="ReassignmentDefinition"/> to configure.
-        /// </summary>
-        protected ReassignmentDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual void To(Action<IPeopleReferenceDefinitionBuilder> setup)
-        {
-            if (setup == null) throw new ArgumentNullException(nameof(setup));
-            var builder = new PeopleReferenceDefinitionBuilder();
-            setup(builder);
-            this.Definition.To = builder.Build();
-        }
-
-        /// <inheritdoc/>
-        public virtual ReassignmentDefinition Build()
-        {
-            return this.Definition;
-        }
-
+    /// <inheritdoc/>
+    public virtual ReassignmentDefinition Build()
+    {
+        return this.Definition;
     }
 
 }

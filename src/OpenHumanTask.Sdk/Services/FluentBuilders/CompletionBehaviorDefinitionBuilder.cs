@@ -12,55 +12,53 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace OpenHumanTask.Sdk.Services.FluentBuilders
+namespace OpenHumanTask.Sdk.Services.FluentBuilders;
+
+/// <summary>
+/// Represents the default implementation of the <see cref="ICompletionBehaviorDefinitionBuilder"/> interface
+/// </summary>
+public class CompletionBehaviorDefinitionBuilder
+    : ICompletionBehaviorDefinitionBuilder, ITypedCompletionBehaviorDefinitionBuilder
 {
+
     /// <summary>
-    /// Represents the default implementation of the <see cref="ICompletionBehaviorDefinitionBuilder"/> interface
+    /// Gets the <see cref="CompletionBehaviorDefinition"/> to configure
     /// </summary>
-    public class CompletionBehaviorDefinitionBuilder
-        : ICompletionBehaviorDefinitionBuilder, ITypedCompletionBehaviorDefinitionBuilder
+    protected CompletionBehaviorDefinition Definition { get; } = new();
+
+    /// <inheritdoc/>
+    public virtual ITypedCompletionBehaviorDefinitionBuilder OfType(CompletionBehaviorType type)
     {
-
-        /// <summary>
-        /// Gets the <see cref="CompletionBehaviorDefinition"/> to configure
-        /// </summary>
-        protected CompletionBehaviorDefinition Definition { get; } = new();
-
-        /// <inheritdoc/>
-        public virtual ITypedCompletionBehaviorDefinitionBuilder OfType(CompletionBehaviorType type)
-        {
-            this.Definition.Type = type;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypedCompletionBehaviorDefinitionBuilder WithName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-            this.Definition.Name = name.Slugify("-").ToLowerInvariant();
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypedCompletionBehaviorDefinitionBuilder SetOutput(object? output)
-        {
-            if (output != null && output is string expression && !expression.IsRuntimeExpression()) 
-                throw new ArgumentNullException(nameof(output), $"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual ITypedCompletionBehaviorDefinitionBuilder When(string? condition)
-        {
-            if (!string.IsNullOrWhiteSpace(condition) && !condition.IsRuntimeExpression()) 
-                throw new ArgumentNullException(nameof(condition), $"The specified value '{condition}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
-            this.Definition.Condition = condition;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public virtual CompletionBehaviorDefinition Build() => this.Definition;
-
+        this.Definition.Type = type;
+        return this;
     }
+
+    /// <inheritdoc/>
+    public virtual ITypedCompletionBehaviorDefinitionBuilder WithName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+        this.Definition.Name = name.Slugify("-").ToLowerInvariant();
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ITypedCompletionBehaviorDefinitionBuilder SetOutput(object? output)
+    {
+        if (output != null && output is string expression && !expression.IsRuntimeExpression()) 
+            throw new ArgumentNullException(nameof(output), $"The specified value '{expression}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual ITypedCompletionBehaviorDefinitionBuilder When(string? condition)
+    {
+        if (!string.IsNullOrWhiteSpace(condition) && !condition.IsRuntimeExpression()) 
+            throw new ArgumentNullException(nameof(condition), $"The specified value '{condition}' is not a valid runtime expression, or does not use the mandatory '${{ expression }}' format");
+        this.Definition.Condition = condition;
+        return this;
+    }
+
+    /// <inheritdoc/>
+    public virtual CompletionBehaviorDefinition Build() => this.Definition;
 
 }
