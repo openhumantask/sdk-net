@@ -41,7 +41,7 @@ public class PeopleReferenceDefinitionBuilder
     {
         if (string.IsNullOrWhiteSpace(type)) throw new ArgumentNullException(nameof(type));
         if (this.Definition.Users == null) this.Definition.Users = new();
-        if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new List<ClaimFilterDefinition>();
+        if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new();
         this.Definition.Users.WithClaims.Add(new() { Type = type, Value = value });
         return this;
     }
@@ -51,7 +51,7 @@ public class PeopleReferenceDefinitionBuilder
     {
         if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
         if (this.Definition.Users == null) this.Definition.Users = new();
-        if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new List<ClaimFilterDefinition>();
+        if (this.Definition.Users.WithClaims == null) this.Definition.Users.WithClaims = new();
         this.Definition.Users.WithClaims.Add(new() { Value = value });
         return this;
     }

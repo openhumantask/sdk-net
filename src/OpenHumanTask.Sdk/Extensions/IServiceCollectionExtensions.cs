@@ -46,6 +46,9 @@ public static class IServiceCollectionExtensions
                .WithNodeDeserializer(
                    inner => new Iso8601TimeSpanConverter(inner),
                    syntax => syntax.InsteadOf<ScalarNodeDeserializer>())
+                .WithNodeDeserializer(
+                    inner => new Serialization.Yaml.RecordConverter(inner),
+                    syntax => syntax.InsteadOf<JSchemaDeserializer>())
                .WithTypeConverter(new Serialization.Yaml.Iso8601DateTimeOffsetConverter())
                .WithTypeConverter(new Serialization.Yaml.StringEnumConverter()));
         services.AddHttpClient();

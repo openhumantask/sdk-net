@@ -26,7 +26,7 @@ public record UsersReferenceDefinition
     /// Gets/sets the claims to filter by the users to reference. Required if '<see cref="InGroup"/>' and '<see cref="InGenericRole"/>' have not been set, otherwise ignored.
     /// </summary>
     [DataMember(Name = "withClaims", Order = 1), JsonPropertyOrder(1), JsonPropertyName("withClaims"), YamlMember(Order = 1, Alias = "withClaims")]
-    public virtual List<ClaimFilterDefinition>? WithClaims { get; set; }
+    public virtual EquatableList<ClaimFilterDefinition>? WithClaims { get; set; }
 
     /// <summary>
     /// Gets/sets the claims to filter by the users to reference. Required if '<see cref="WithClaims"/>' and '<see cref="InGenericRole"/>' have not been set, otherwise ignored.

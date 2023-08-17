@@ -19,7 +19,7 @@ namespace OpenHumanTask.Sdk.Models;
 /// </summary>
 /// <remarks>See <see href="https://github.com/openhumantask/specification/blob/main/specification.md#task-definition-references"/></remarks>
 [DataContract]
-public record TaskDefinitionReference
+public record HumanTaskDefinitionReference
 {
 
     /// <summary>
@@ -43,12 +43,20 @@ public record TaskDefinitionReference
     [DataMember(Name = "version", Order = 3), JsonPropertyOrder(3), JsonPropertyName("version"), YamlMember(Order = 3, Alias = "version")]
     public virtual string? Version { get; set; } = null!;
 
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        var fullName = $"{this.Namespace}.{this.Name}";
+        if (!string.IsNullOrWhiteSpace(this.Version)) fullName += $":{this.Version}";
+        return fullName;
+    }
+
     /// <summary>
-    /// Parses the specified input into a new <see cref="TaskDefinitionReference"/>
+    /// Parses the specified input into a new <see cref="HumanTaskDefinitionReference"/>
     /// </summary>
     /// <param name="input">The input to parse</param>
-    /// <returns>A new <see cref="TaskDefinitionReference"/>.</returns>
-    public static TaskDefinitionReference? Parse(string input)
+    /// <returns>A new <see cref="HumanTaskDefinitionReference"/>.</returns>
+    public static HumanTaskDefinitionReference? Parse(string input)
     {
         if (string.IsNullOrWhiteSpace(input)) return default;
         var components = input.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -59,45 +67,37 @@ public record TaskDefinitionReference
         return new() { Name = name, Namespace = @namespace, Version = version };
     }
 
-        /// <summary>
-        /// Attempts to parse the specified input into a new <see cref="HumanTaskDefinitionReference"/>
-        /// </summary>
-        /// <param name="input">The input to parse</param>
-        /// <param name="reference">The resulting <see cref="HumanTaskDefinitionReference"/>, if any</param>
-        /// <returns>A boolean indicating whether or not the specified input could be parsed into a new <see cref="HumanTaskDefinitionReference"/></returns>
-        public static bool TryParse(string input, out HumanTaskDefinitionReference? reference)
+    /// <summary>
+    /// Attempts to parse the specified input into a new <see cref="HumanTaskDefinitionReference"/>
+    /// </summary>
+    /// <param name="input">The input to parse</param>
+    /// <param name="reference">The resulting <see cref="HumanTaskDefinitionReference"/>, if any</param>
+    /// <returns>A boolean indicating whether or not the specified input could be parsed into a new <see cref="HumanTaskDefinitionReference"/></returns>
+    public static bool TryParse(string input, out HumanTaskDefinitionReference? reference)
+    {
+        reference = default;
+        try
         {
-            reference = default;
-            try
-            {
-                reference = Parse(input);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            reference = Parse(input);
+            return true;
         }
-
-        /// <summary>
-        /// Implicitly converts the specified string into a new <see cref="HumanTaskDefinitionReference"/>
-        /// </summary>
-        /// <param name="input">The input to parse</param>
-        public static implicit operator HumanTaskDefinitionReference?(string input)
+        catch
         {
-            return Parse(input);
+            return false;
         }
-
-        /// <summary>
-        /// Implicitly converts the specified <see cref="HumanTaskDefinitionReference"/> into its string representation.
-        /// </summary>
-        /// <param name="reference">The <see cref="HumanTaskDefinitionReference"/> to convert.</param>
-        /// <returns>The specified <see cref="HumanTaskDefinitionReference"/>'s string representation.</returns>
-        public static implicit operator string?(HumanTaskDefinitionReference reference)
-        {
-            return reference?.ToString();
-        }
-
     }
+
+    /// <summary>
+    /// Implicitly converts the specified string into a new <see cref="HumanTaskDefinitionReference"/>
+    /// </summary>
+    /// <param name="input">The input to parse</param>
+    public static implicit operator HumanTaskDefinitionReference?(string input) => Parse(input);
+
+    /// <summary>
+    /// Implicitly converts the specified <see cref="HumanTaskDefinitionReference"/> into its string representation.
+    /// </summary>
+    /// <param name="reference">The <see cref="HumanTaskDefinitionReference"/> to convert.</param>
+    /// <returns>The specified <see cref="HumanTaskDefinitionReference"/>'s string representation.</returns>
+    public static implicit operator string?(HumanTaskDefinitionReference? reference) => reference?.ToString();
 
 }

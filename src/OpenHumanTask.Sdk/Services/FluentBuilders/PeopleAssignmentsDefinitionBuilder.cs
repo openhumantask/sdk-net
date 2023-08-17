@@ -32,7 +32,7 @@ public class PeopleAssignmentsDefinitionBuilder
         if(setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.PotentialInitiators == null) this.Definition.PotentialInitiators = new List<PeopleReferenceDefinition>();
+        if (this.Definition.PotentialInitiators == null) this.Definition.PotentialInitiators = new();
         this.Definition.PotentialInitiators.Add(builder.Build());
         return this;
     }
@@ -43,7 +43,7 @@ public class PeopleAssignmentsDefinitionBuilder
         if (setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.PotentialOwners == null) this.Definition.PotentialOwners = new List<PeopleReferenceDefinition>();
+        if (this.Definition.PotentialOwners == null) this.Definition.PotentialOwners = new();
         this.Definition.PotentialOwners.Add(builder.Build());
         return this;
     }
@@ -54,7 +54,7 @@ public class PeopleAssignmentsDefinitionBuilder
         if (setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.ExcludedOwners == null) this.Definition.ExcludedOwners = new List<PeopleReferenceDefinition>();
+        if (this.Definition.ExcludedOwners == null) this.Definition.ExcludedOwners = new();
         this.Definition.ExcludedOwners.Add(builder.Build());
         return this;
     }
@@ -65,7 +65,7 @@ public class PeopleAssignmentsDefinitionBuilder
         if (setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.Stakeholders == null) this.Definition.Stakeholders = new List<PeopleReferenceDefinition>();
+        if (this.Definition.Stakeholders == null) this.Definition.Stakeholders = new();
         this.Definition.Stakeholders.Add(builder.Build());
         return this;
     }
@@ -76,7 +76,7 @@ public class PeopleAssignmentsDefinitionBuilder
         if (setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.BusinessAdministrators == null) this.Definition.BusinessAdministrators = new List<PeopleReferenceDefinition>();
+        if (this.Definition.BusinessAdministrators == null) this.Definition.BusinessAdministrators = new();
         this.Definition.BusinessAdministrators.Add(builder.Build());
         return this;
     }
@@ -87,7 +87,7 @@ public class PeopleAssignmentsDefinitionBuilder
         if (setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.NotificationRecipients == null) this.Definition.NotificationRecipients = new List<PeopleReferenceDefinition>();
+        if (this.Definition.NotificationRecipients == null) this.Definition.NotificationRecipients = new();
         this.Definition.NotificationRecipients.Add(builder.Build());
         return this;
     }
@@ -98,14 +98,14 @@ public class PeopleAssignmentsDefinitionBuilder
         if (setup == null) throw new ArgumentNullException(nameof(setup));
         var builder = new PeopleReferenceDefinitionBuilder();
         setup(builder);
-        if (this.Definition.Groups == null) this.Definition.Groups = new List<LogicalPeopleGroupDefinition>();
+        if (this.Definition.Groups == null) this.Definition.Groups = new();
         var group = this.Definition.Groups.FirstOrDefault(g => g.Name.Equals(groupName, StringComparison.InvariantCultureIgnoreCase));
         if (group == null)
         {
             group = new() { Name = groupName.Slugify("-").ToLowerInvariant() };
             this.Definition.Groups.Add(group);
         }
-        group.Members ??= new List<PeopleReferenceDefinition>();
+        group.Members ??= new();
         group.Members.Add(builder.Build());
         return this;
     }

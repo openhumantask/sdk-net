@@ -31,13 +31,12 @@ public record SubtaskDefinition
     [DataMember(Name = "name", IsRequired = true, Order = 1), JsonPropertyOrder(1), JsonPropertyName("name"), YamlMember(Order = 1, Alias = "name")]
     public virtual string Name { get; set; } = null!;
 
-        /// <summary>
-        /// Gets/sets a reference to the <see cref="HumanTaskDefinition"/> to instanciate.
-        /// </summary>
-        [Required]
-        [DataMember(Name = "task", IsRequired = true, Order = 2)]
-        [JsonPropertyName("task")]
-        public virtual HumanTaskDefinitionReference Task { get; set; } = null!;
+    /// <summary>
+    /// Gets/sets a reference to the <see cref="HumanTaskDefinition"/> to instanciate.
+    /// </summary>
+    [Required, MinLength(3)]
+    [DataMember(Name = "task", IsRequired = true, Order = 2), JsonPropertyOrder(2), JsonPropertyName("task"), YamlMember(Order = 2, Alias = "task")]
+    public virtual HumanTaskDefinitionReference Task { get; set; } = null!;
 
     /// <summary>
     /// Gets/sets the data to pass as the subtask's input.

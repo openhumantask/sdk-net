@@ -54,7 +54,7 @@ internal static class HumanTaskDefinitionFactory
                         then.Reassign()))
             .UseCompletionDeadline(deadline =>
                 deadline
-                    .ElapsesAt(new(2023, 4, 4, 12, 30, 00, TimeSpan.Zero))
+                    .ElapsesAt(DateTimeOffset.Now + TimeSpan.FromDays(1))
                     .Escalates(then =>
                         then.StartSubtask("fake-subtask-1", subtask =>
                             subtask
